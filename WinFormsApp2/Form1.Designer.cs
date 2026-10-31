@@ -31,6 +31,8 @@
             button1 = new Button();
             textBox1 = new TextBox();
             label1 = new Label();
+            dataGridView1 = new DataGridView();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // button1
@@ -53,24 +55,34 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(57, 293);
+            label1.Location = new Point(57, 305);
             label1.Name = "label1";
             label1.Size = new Size(39, 20);
             label1.TabIndex = 2;
             label1.Text = "名前";
-            label1.Click += label1_Click;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(36, 26);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 51;
+            dataGridView1.Size = new Size(740, 264);
+            dataGridView1.TabIndex = 3;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(dataGridView1);
             Controls.Add(label1);
             Controls.Add(textBox1);
             Controls.Add(button1);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -80,5 +92,6 @@
         private Button button1;
         private TextBox textBox1;
         private Label label1;
+        private DataGridView dataGridView1;
     }
 }
