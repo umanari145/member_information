@@ -22,17 +22,53 @@ namespace WinFormsApp2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            LoadAllMembers();
+            LoadAllMembers("", 0, int.MaxValue, null);
         }
 
-        private void LoadAllMembers()
+        private void LoadAllMembers(string nameKeyword, int ageFrom, int ageTo, string? gender)
         {
-            string sql = "SELECT MemberId, Name, Age, Gender FROM Members ORDER BY MemberId";
+
+            var conditions = new List<string>();
+            var parameters = new List<SqlParameter>();
+
+            string sql = "SELECT MemberId, Name, Age, Gender FROM Members ";
+
+            if (!string.IsNullOrEmpty(nameKeyword))
+            {
+                conditions.Add("Name LIKE @name");
+                parameters.Add(new SqlParameter("@name", "%" + nameKeyword + "%"));
+            }
+
+            if (ageFrom > 0)
+            {
+                conditions.Add("Age >= @ageFrom");
+                parameters.Add(new SqlParameter("@ageFrom", ageFrom));
+            }
+
+            if (ageTo < int.MaxValue)
+            {
+                conditions.Add("Age <= @ageTo");
+                parameters.Add(new SqlParameter("@ageTo", ageTo));
+            }
+
+            if (!string.IsNullOrEmpty(gender))
+            {
+                conditions.Add("Gender = @gender");
+                parameters.Add(new SqlParameter("@gender", gender));
+            }
+
+            if (conditions.Count > 0)
+            {
+                sql += " WHERE " + string.Join(" AND ", conditions);
+            }
+
+            sql += " ORDER BY MemberId";
 
             try
             {
                 using var conn = new SqlConnection(_connStr);
                 using var adapter = new SqlDataAdapter(sql, conn);
+                adapter.SelectCommand.Parameters.AddRange(parameters.ToArray());
 
                 var table = new DataTable();
                 adapter.Fill(table);
@@ -45,10 +81,31 @@ namespace WinFormsApp2
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void search_button_Click(object sender, EventArgs e)
         {
+            string nameKeyword = name.Text.Trim();
 
+            int ageFrom = (int)age_from.Value;
+            int ageTo = (int)age_to.Value;
+
+            string? gender = null;
+            if (man_radio_button.Checked)
+            {
+                gender = "男性";
+            }
+            else if (woman_radio_button.Checked)
+            {
+                gender = "女性";
+            }
+
+
+
+            LoadAllMembers(
+                nameKeyword,
+                ageFrom,
+                ageTo,
+                gender
+            );
         }
-
     }
 }

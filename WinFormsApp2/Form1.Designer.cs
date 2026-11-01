@@ -28,70 +28,172 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
-            textBox1 = new TextBox();
-            label1 = new Label();
+            search_button = new Button();
+            name = new TextBox();
+            name_label = new Label();
             dataGridView1 = new DataGridView();
+            age_from = new NumericUpDown();
+            age_to = new NumericUpDown();
+            age_label = new Label();
+            range_label = new Label();
+            sex_label = new Label();
+            man_radio_button = new RadioButton();
+            woman_radio_button = new RadioButton();
+            sex_group_panel = new Panel();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)age_from).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)age_to).BeginInit();
+            sex_group_panel.SuspendLayout();
             SuspendLayout();
             // 
-            // button1
+            // search_button
             // 
-            button1.Location = new Point(228, 328);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 29);
-            button1.TabIndex = 0;
-            button1.Text = "検索";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            search_button.Location = new Point(249, 490);
+            search_button.Name = "search_button";
+            search_button.Size = new Size(94, 29);
+            search_button.TabIndex = 0;
+            search_button.Text = "検索";
+            search_button.UseVisualStyleBackColor = true;
+            search_button.Click += search_button_Click;
             // 
-            // textBox1
+            // name
             // 
-            textBox1.Location = new Point(57, 328);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(125, 27);
-            textBox1.TabIndex = 1;
+            name.Location = new Point(92, 332);
+            name.Name = "name";
+            name.Size = new Size(156, 27);
+            name.TabIndex = 1;
             // 
-            // label1
+            // name_label
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(57, 305);
-            label1.Name = "label1";
-            label1.Size = new Size(39, 20);
-            label1.TabIndex = 2;
-            label1.Text = "名前";
+            name_label.AutoSize = true;
+            name_label.Location = new Point(36, 335);
+            name_label.Name = "name_label";
+            name_label.Size = new Size(39, 20);
+            name_label.TabIndex = 2;
+            name_label.Text = "名前";
             // 
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(36, 26);
+            dataGridView1.Location = new Point(36, 12);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(740, 264);
+            dataGridView1.Size = new Size(575, 264);
             dataGridView1.TabIndex = 3;
+            // 
+            // age_from
+            // 
+            age_from.Location = new Point(92, 386);
+            age_from.Maximum = new decimal(new int[] { 150, 0, 0, 0 });
+            age_from.Name = "age_from";
+            age_from.Size = new Size(60, 27);
+            age_from.TabIndex = 4;
+            // 
+            // age_to
+            // 
+            age_to.Location = new Point(190, 386);
+            age_to.Name = "age_to";
+            age_to.Size = new Size(60, 27);
+            age_to.TabIndex = 5;
+            // 
+            // age_label
+            // 
+            age_label.AutoSize = true;
+            age_label.Location = new Point(36, 388);
+            age_label.Name = "age_label";
+            age_label.Size = new Size(39, 20);
+            age_label.TabIndex = 6;
+            age_label.Text = "年齢";
+            // 
+            // range_label
+            // 
+            range_label.AutoSize = true;
+            range_label.Location = new Point(160, 390);
+            range_label.Name = "range_label";
+            range_label.Size = new Size(24, 20);
+            range_label.TabIndex = 7;
+            range_label.Text = "～";
+            // 
+            // sex_label
+            // 
+            sex_label.AutoSize = true;
+            sex_label.Location = new Point(36, 440);
+            sex_label.Name = "sex_label";
+            sex_label.Size = new Size(39, 20);
+            sex_label.TabIndex = 8;
+            sex_label.Text = "性別";
+            // 
+            // man_radio_button
+            // 
+            man_radio_button.AutoSize = true;
+            man_radio_button.Location = new Point(0, 3);
+            man_radio_button.Name = "man_radio_button";
+            man_radio_button.Size = new Size(60, 24);
+            man_radio_button.TabIndex = 11;
+            man_radio_button.TabStop = true;
+            man_radio_button.Text = "男性";
+            man_radio_button.UseVisualStyleBackColor = true;
+            // 
+            // woman_radio_button
+            // 
+            woman_radio_button.AutoSize = true;
+            woman_radio_button.Location = new Point(98, 3);
+            woman_radio_button.Name = "woman_radio_button";
+            woman_radio_button.Size = new Size(60, 24);
+            woman_radio_button.TabIndex = 12;
+            woman_radio_button.TabStop = true;
+            woman_radio_button.Text = "女性";
+            woman_radio_button.UseVisualStyleBackColor = true;
+            // 
+            // sex_group_panel
+            // 
+            sex_group_panel.Controls.Add(woman_radio_button);
+            sex_group_panel.Controls.Add(man_radio_button);
+            sex_group_panel.Location = new Point(92, 434);
+            sex_group_panel.Name = "sex_group_panel";
+            sex_group_panel.Size = new Size(250, 39);
+            sex_group_panel.TabIndex = 13;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(915, 544);
+            Controls.Add(sex_group_panel);
+            Controls.Add(sex_label);
+            Controls.Add(range_label);
+            Controls.Add(age_label);
+            Controls.Add(age_to);
+            Controls.Add(age_from);
             Controls.Add(dataGridView1);
-            Controls.Add(label1);
-            Controls.Add(textBox1);
-            Controls.Add(button1);
+            Controls.Add(name_label);
+            Controls.Add(name);
+            Controls.Add(search_button);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)age_from).EndInit();
+            ((System.ComponentModel.ISupportInitialize)age_to).EndInit();
+            sex_group_panel.ResumeLayout(false);
+            sex_group_panel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Button button1;
-        private TextBox textBox1;
-        private Label label1;
+        private Button search_button;
+        private TextBox name;
+        private Label name_label;
+        private Label sex_label;
         private DataGridView dataGridView1;
+        private NumericUpDown age_from;
+        private NumericUpDown age_to;
+        private Label age_label;
+        private Label range_label;
+        private RadioButton man_radio_button;
+        private RadioButton woman_radio_button;
+        private Panel sex_group_panel;
     }
 }
