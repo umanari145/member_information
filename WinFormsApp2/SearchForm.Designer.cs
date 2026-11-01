@@ -40,10 +40,14 @@
             man_radio_button = new RadioButton();
             woman_radio_button = new RadioButton();
             sex_group_panel = new Panel();
+            menuStrip1 = new MenuStrip();
+            member_menu = new ToolStripMenuItem();
+            register_menu_item = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)age_from).BeginInit();
             ((System.ComponentModel.ISupportInitialize)age_to).BeginInit();
             sex_group_panel.SuspendLayout();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // search_button
@@ -154,6 +158,30 @@
             sex_group_panel.Size = new Size(250, 39);
             sex_group_panel.TabIndex = 13;
             // 
+            // menuStrip1
+            // 
+            menuStrip1.ImageScalingSize = new Size(20, 20);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { member_menu });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(915, 28);
+            menuStrip1.TabIndex = 14;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // member_menu
+            // 
+            member_menu.DropDownItems.AddRange(new ToolStripItem[] { register_menu_item });
+            member_menu.Name = "member_menu";
+            member_menu.Size = new Size(83, 24);
+            member_menu.Text = "会員管理";
+            // 
+            // register_menu_item
+            // 
+            register_menu_item.Name = "register_menu_item";
+            register_menu_item.Size = new Size(224, 26);
+            register_menu_item.Text = "新規登録";
+            register_menu_item.Click += this.register_menu_item_Click;
+            // 
             // SearchForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -169,6 +197,7 @@
             Controls.Add(name_label);
             Controls.Add(name);
             Controls.Add(search_button);
+            Controls.Add(menuStrip1);
             Name = "SearchForm";
             Text = "SearchForm";
             Load += SearchForm_Load;
@@ -177,6 +206,8 @@
             ((System.ComponentModel.ISupportInitialize)age_to).EndInit();
             sex_group_panel.ResumeLayout(false);
             sex_group_panel.PerformLayout();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -195,5 +226,8 @@
         private RadioButton man_radio_button;
         private RadioButton woman_radio_button;
         private Panel sex_group_panel;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem member_menu;
+        private ToolStripMenuItem register_menu_item;
     }
 }

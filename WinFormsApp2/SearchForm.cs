@@ -79,5 +79,11 @@ namespace WinFormsApp2
                 return null;
             }
         }
+
+        private void register_menu_item_Click(object sender, EventArgs e)
+        {
+            using var form = new RegistForm();
+            form.ShowDialog(this);
+        }
     }
 }
