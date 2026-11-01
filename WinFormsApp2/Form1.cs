@@ -27,48 +27,20 @@ namespace WinFormsApp2
 
         private void LoadAllMembers(SearchClass search)
         {
+            var where = new WhereBuilder();
+            where.AddLike("Name", search.Name);
+            where.AddRange("Age", search.AgeFrom, search.AgeTo, 0, 150);
+            where.AddEqual("Gender", search.Gender);
 
-            var conditions = new List<string>();
-            var parameters = new List<SqlParameter>();
-
-            string sql = "SELECT MemberId, Name, Age, Gender FROM Members ";
-
-            if (!string.IsNullOrEmpty(search.Name))
-            {
-                conditions.Add("Name LIKE @name");
-                parameters.Add(new SqlParameter("@name", "%" + search.Name + "%"));
-            }
-
-            if (search.AgeFrom > 0)
-            {
-                conditions.Add("Age >= @ageFrom");
-                parameters.Add(new SqlParameter("@ageFrom", search.AgeFrom));
-            }
-
-            if (search.AgeTo < int.MaxValue)
-            {
-                conditions.Add("Age <= @ageTo");
-                parameters.Add(new SqlParameter("@ageTo", search.AgeTo));
-            }
-
-            if (!string.IsNullOrEmpty(search.Gender))
-            {
-                conditions.Add("Gender = @gender");
-                parameters.Add(new SqlParameter("@gender", search.Gender));
-            }
-
-            if (conditions.Count > 0)
-            {
-                sql += " WHERE " + string.Join(" AND ", conditions);
-            }
-
-            sql += " ORDER BY MemberId";
+            string sql = "SELECT MemberId, Name, Age, Gender FROM Members"
+                       + where.ToWhereClause()
+                       + " ORDER BY MemberId";
 
             try
             {
                 using var conn = new SqlConnection(_connStr);
                 using var adapter = new SqlDataAdapter(sql, conn);
-                adapter.SelectCommand.Parameters.AddRange(parameters.ToArray());
+                adapter.SelectCommand.Parameters.AddRange(where.Parameters);
 
                 var table = new DataTable();
                 adapter.Fill(table);
