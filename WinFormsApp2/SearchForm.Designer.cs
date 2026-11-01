@@ -1,6 +1,6 @@
 ﻿namespace WinFormsApp2
 {
-    partial class Form1
+    partial class SearchForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -75,7 +75,7 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(36, 12);
+            dataGridView1.Location = new Point(36, 45);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.Size = new Size(575, 264);
@@ -154,7 +154,7 @@
             sex_group_panel.Size = new Size(250, 39);
             sex_group_panel.TabIndex = 13;
             // 
-            // Form1
+            // SearchForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -169,9 +169,9 @@
             Controls.Add(name_label);
             Controls.Add(name);
             Controls.Add(search_button);
-            Name = "Form1";
-            Text = "Form1";
-            Load += Form1_Load;
+            Name = "SearchForm";
+            Text = "SearchForm";
+            Load += SearchForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)age_from).EndInit();
             ((System.ComponentModel.ISupportInitialize)age_to).EndInit();
