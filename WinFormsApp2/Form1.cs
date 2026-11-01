@@ -22,10 +22,10 @@ namespace WinFormsApp2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            LoadAllMembers("", 0, int.MaxValue, null);
+            LoadAllMembers(new SearchClass());
         }
 
-        private void LoadAllMembers(string nameKeyword, int ageFrom, int ageTo, string? gender)
+        private void LoadAllMembers(SearchClass search)
         {
 
             var conditions = new List<string>();
@@ -33,28 +33,28 @@ namespace WinFormsApp2
 
             string sql = "SELECT MemberId, Name, Age, Gender FROM Members ";
 
-            if (!string.IsNullOrEmpty(nameKeyword))
+            if (!string.IsNullOrEmpty(search.Name))
             {
                 conditions.Add("Name LIKE @name");
-                parameters.Add(new SqlParameter("@name", "%" + nameKeyword + "%"));
+                parameters.Add(new SqlParameter("@name", "%" + search.Name + "%"));
             }
 
-            if (ageFrom > 0)
+            if (search.AgeFrom > 0)
             {
                 conditions.Add("Age >= @ageFrom");
-                parameters.Add(new SqlParameter("@ageFrom", ageFrom));
+                parameters.Add(new SqlParameter("@ageFrom", search.AgeFrom));
             }
 
-            if (ageTo < int.MaxValue)
+            if (search.AgeTo < int.MaxValue)
             {
                 conditions.Add("Age <= @ageTo");
-                parameters.Add(new SqlParameter("@ageTo", ageTo));
+                parameters.Add(new SqlParameter("@ageTo", search.AgeTo));
             }
 
-            if (!string.IsNullOrEmpty(gender))
+            if (!string.IsNullOrEmpty(search.Gender))
             {
                 conditions.Add("Gender = @gender");
-                parameters.Add(new SqlParameter("@gender", gender));
+                parameters.Add(new SqlParameter("@gender", search.Gender));
             }
 
             if (conditions.Count > 0)
@@ -83,29 +83,29 @@ namespace WinFormsApp2
 
         private void search_button_Click(object sender, EventArgs e)
         {
-            string nameKeyword = name.Text.Trim();
+            var searchClass = new SearchClass();
+            searchClass.Name = name.Text.Trim();
+            searchClass.AgeFrom = (int)age_from.Value;
+            searchClass.AgeTo = (int)age_to.Value;
+            searchClass.Gender = GetSelectedGender();
 
-            int ageFrom = (int)age_from.Value;
-            int ageTo = (int)age_to.Value;
+            LoadAllMembers(searchClass);
+        }
 
-            string? gender = null;
+        private string? GetSelectedGender()
+        {
             if (man_radio_button.Checked)
             {
-                gender = "男性";
+                return "男性";
             }
             else if (woman_radio_button.Checked)
             {
-                gender = "女性";
+                return "女性";
             }
-
-
-
-            LoadAllMembers(
-                nameKeyword,
-                ageFrom,
-                ageTo,
-                gender
-            );
+            else
+            {
+                return null;
+            }
         }
     }
 }
