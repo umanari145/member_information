@@ -5,6 +5,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using WinFormsApp2.Validation;
+using WinFormsApp2.Validation.Rules;
 
 namespace WinFormsApp2
 {
@@ -30,14 +32,22 @@ namespace WinFormsApp2
 
         private void regist_button_Click(object sender, EventArgs e)
         {
-            var requestCollection = new RequestCollection();
-            var request = requestCollection.GetRequestData(this);
+            var request = new RequestCollection();
+            request.Collect(this);
 
-            string name = (string)request["name_input"]!;
-            int age = (int)(decimal)request["age_input"]!;
-            string? sex = (string?)request["sex_group"];
+            var validator = new RequestValidator();
+            validator.Add(new RequiredRule("name_input", "名前を入力してください。"));
+            validator.Add(new RangeRule("age_input", 1, 150, "年齢は1〜150の範囲で入力してください。"));
+            validator.Add(new RequiredRule("sex_group", "性別を選択してください。"));
 
-            MessageBox.Show($"名前: {name}\n年齢: {age}\n性別: {sex}", "登録情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var result = validator.Validate(request);
+
+            if (!result.IsValid)
+            {
+                MessageBox.Show(result.ToMessage());
+                return;
+            }
+
         }
 
 

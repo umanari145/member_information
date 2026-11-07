@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace WinFormsApp2
 {
     public class RequestCollection : Dictionary<string, object?>
     {
-        public Dictionary<string, object> GetRequestData(Control parent)
+        /// <summary>
+        /// コントロールから値を読み取り、このインスタンスに保持します。
+        /// </summary>
+        public void Collect(Control parent)
         {
-            var result = new Dictionary<string, object?>();
-
+            // 直下にラジオボタンがあれば、親名をキーに選択値を保持
             var radios = parent.Controls.OfType<RadioButton>().ToList();
             if (radios.Count > 0)
             {
                 var selected = radios.FirstOrDefault(r => r.Checked);
-                // キーは親コントロール名(例: flowLayoutPanel1)
-                result[parent.Name] = selected?.Tag ?? selected?.Text;
+                this[parent.Name] = selected?.Tag ?? selected?.Text;
             }
 
             foreach (Control c in parent.Controls)
@@ -23,32 +25,47 @@ namespace WinFormsApp2
                 switch (c)
                 {
                     case TextBox t:
-                        result[t.Name] = t.Text;
+                        this[t.Name] = t.Text;
                         break;
                     case NumericUpDown n:
-                        result[n.Name] = n.Value;
+                        this[n.Name] = n.Value;
                         break;
-                    case RadioButton r:
-                        result[r.Name] = r.Checked;
+                    case RadioButton:
+                        // 親名でまとめて保持済みなので個別には入れない
                         break;
                     case CheckBox cb:
-                        result[cb.Name] = cb.Checked;
+                        this[cb.Name] = cb.Checked;
                         break;
                     case ComboBox combo:
-                        result[combo.Name] = combo.SelectedItem;
+                        this[combo.Name] = combo.SelectedItem;
                         break;
                     default:
-                        // Panel / FlowLayoutPanel / GroupBox などの入れ物は再帰
                         if (c.HasChildren)
-                        {
-                            foreach (var kv in GetRequestData(c))
-                                result[kv.Key] = kv.Value;
-                        }
+                            Collect(c);   // 同じインスタンスに書き込む
                         break;
                 }
             }
-            return result;
         }
 
+        /// <summary>
+        /// 保持している値を型付きで取得します。存在しない・変換できない場合は既定値を返します。
+        /// </summary>
+        public T? Get<T>(string key, T? defaultValue = default)
+        {
+            if (!TryGetValue(key, out var value) || value is null)
+                return defaultValue;
+
+            if (value is T typed)
+                return typed;
+
+            try
+            {
+                return (T)Convert.ChangeType(value, typeof(T));
+            }
+            catch
+            {
+                return defaultValue;
+            }
+        }
     }
 }
