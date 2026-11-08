@@ -6,18 +6,10 @@ namespace WinFormsApp2
 {
     public partial class SearchForm : Form
     {
-        private readonly string? _connStr;
+        private readonly DB _db = new DB();
         public SearchForm()
         {
             InitializeComponent();
-            var config = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
-                .AddJsonFile("appsettings.json", optional: false)
-                .Build();
-
-            _connStr = config.GetConnectionString("Members")
-                       ?? throw new InvalidOperationException("接続文字列 'Members' が appsettings.json に見つかりません。");
-
         }
 
         private void SearchForm_Load(object sender, EventArgs e)
@@ -27,23 +19,18 @@ namespace WinFormsApp2
 
         private void LoadAllMembers(SearchClass search)
         {
-            var where = new WhereBuilder();
-            where.AddLike("Name", search.Name);
-            where.AddRange("Age", search.AgeFrom, search.AgeTo, 0, 150);
-            where.AddEqual("Gender", search.Gender);
-
-            string sql = "SELECT MemberId, Name, Age, Gender FROM Members"
-                       + where.ToWhereClause()
-                       + " ORDER BY MemberId";
-
             try
             {
-                using var conn = new SqlConnection(_connStr);
-                using var adapter = new SqlDataAdapter(sql, conn);
-                adapter.SelectCommand.Parameters.AddRange(where.Parameters);
+                var where = new WhereBuilder();
+                where.AddLike("Name", search.Name);
+                where.AddRange("Age", search.AgeFrom, search.AgeTo, 0, 150);
+                where.AddEqual("Gender", search.Gender);
 
-                var table = new DataTable();
-                adapter.Fill(table);
+                string sql = "SELECT MemberId, Name, Age, Gender FROM Members"
+                           + where.ToWhereClause()
+                           + " ORDER BY MemberId";
+
+                var table = _db.Query(sql, where.Parameters);
                 dataGridView1.DataSource = table;
             }
             catch (Exception ex)

@@ -7,50 +7,57 @@ namespace WinFormsApp2
 {
     public  class WhereBuilder
     {
-        private readonly List<string> _conditions = new();
-        private readonly List<SqlParameter> _parameters = new();
-
         /// <summary>
         /// 「列 演算子 値」の条件を追加する。値が空なら何もしない。
         /// パラメーター名は "@列名 + suffix" になる。
         /// </summary>
-        public void Add(string column, string op, object? value,
-                        string suffix = "", params object[] ignoreValues)
-        {
-            if (IsEmpty(value)) return;
-            if (ignoreValues.Any(v => Equals(v, value))) return;
+        private readonly List<string> _conditions = new List<string>();
+        private readonly Dictionary<string, object?> _parameters = new Dictionary<string, object?>();
 
-            string paramName = "@" + column + suffix;
-            _conditions.Add($"{column} {op} {paramName}");
-            _parameters.Add(new SqlParameter(paramName, value));
+        // Db.Query にそのまま渡せる
+        public Dictionary<string, object?> Parameters
+        {
+            get { return _parameters; }
+        }
+
+        public void AddLike(string column, string? value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return;
+
+            _conditions.Add(column + " LIKE @" + column);
+            _parameters["@" + column] = "%" + value + "%";
         }
 
         public void AddEqual(string column, object? value)
-            => Add(column, "=", value);
-
-        public void AddLike(string column, string? keyword)
         {
-            if (IsEmpty(keyword)) return;
+            if (value == null) return;
 
-            string paramName = "@" + column;
-            _conditions.Add($"{column} LIKE {paramName}");
-            _parameters.Add(new SqlParameter(paramName, "%" + keyword!.Trim() + "%"));
+            _conditions.Add(column + " = @" + column);
+            _parameters["@" + column] = value;
         }
 
-        public void AddRange(string column, int? from, int? to,
-                             int? ignoreFrom = null, int? ignoreTo = null)
+        public void AddRange(string column, int? from, int? to, int min, int max)
         {
-            if (from.HasValue && from != ignoreFrom)
-                Add(column, ">=", from.Value, "From");
+            // 下限は min より大きいときだけ条件にする
+            if (from.HasValue && from.Value > min)
+            {
+                _conditions.Add(column + " >= @" + column + "From");
+                _parameters["@" + column + "From"] = from.Value;
+            }
 
-            if (to.HasValue && to != ignoreTo)
-                Add(column, "<=", to.Value, "To");
+            // 上限は max より小さいときだけ条件にする
+            if (to.HasValue && to.Value < max)
+            {
+                _conditions.Add(column + " <= @" + column + "To");
+                _parameters["@" + column + "To"] = to.Value;
+            }
         }
 
         public string ToWhereClause()
-            => _conditions.Count == 0 ? "" : " WHERE " + string.Join(" AND ", _conditions);
-
-        public SqlParameter[] Parameters => _parameters.ToArray();
+        {
+            if (_conditions.Count == 0) return "";
+            return " WHERE " + string.Join(" AND ", _conditions);
+        }
 
         private static bool IsEmpty(object? value)
         {
