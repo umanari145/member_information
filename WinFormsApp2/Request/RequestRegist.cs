@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace WinFormsApp2
+namespace WinFormsApp2.Request
 {
-    public class RequestCollection : Dictionary<string, object?>
+    public class RequestRegist : Dictionary<string, object?>
     {
         private const string InputSuffix = "_input";
         /// <summary>

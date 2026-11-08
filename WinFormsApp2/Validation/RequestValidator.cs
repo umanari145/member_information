@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WinFormsApp2.Request;
 using WinFormsApp2.Validation.Rules;
 
 namespace WinFormsApp2.Validation
@@ -14,7 +15,7 @@ namespace WinFormsApp2.Validation
             _rules.Add(rule);
         }
 
-        public ValidationResult Validate(RequestCollection request)
+        public ValidationResult Validate(RequestRegist request)
         {
             var result = new ValidationResult();
 

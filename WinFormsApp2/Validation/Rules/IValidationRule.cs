@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WinFormsApp2.Request;
 
 namespace WinFormsApp2.Validation.Rules
 {
@@ -10,6 +11,6 @@ namespace WinFormsApp2.Validation.Rules
         string Key { get; }
 
         /// <summary>OKなら null、エラーならメッセージを返す</summary>
-        string? Validate(RequestCollection request);
+        string? Validate(RequestRegist request);
     }
 }

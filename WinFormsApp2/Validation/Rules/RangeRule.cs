@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WinFormsApp2.Request;
 
 namespace WinFormsApp2.Validation.Rules
 {
@@ -19,7 +20,7 @@ namespace WinFormsApp2.Validation.Rules
             _message = message;
         }
 
-        public string? Validate(RequestCollection request)
+        public string? Validate(RequestRegist request)
         {
             decimal value = request.Get<decimal>(Key);
 

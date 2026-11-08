@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
+using WinFormsApp2.Request;
 using WinFormsApp2.Validation;
 using WinFormsApp2.Validation.Rules;
 
@@ -35,7 +36,7 @@ namespace WinFormsApp2
 
         private void regist_button_Click(object sender, EventArgs e)
         {
-            var request = new RequestCollection();
+            var request = new RequestRegist();
             request.Collect(this);
 
             var validator = new RequestValidator();
@@ -58,7 +59,7 @@ namespace WinFormsApp2
 
         }
 
-        private bool insert_member(RequestCollection request)
+        private bool insert_member(RequestRegist request)
         {
             try
             {
