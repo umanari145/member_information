@@ -7,6 +7,7 @@ namespace WinFormsApp2
 {
     public class RequestCollection : Dictionary<string, object?>
     {
+        private const string InputSuffix = "_input";
         /// <summary>
         /// コントロールから値を読み取り、このインスタンスに保持します。
         /// </summary>
@@ -66,6 +67,46 @@ namespace WinFormsApp2
             {
                 return defaultValue;
             }
+        }
+
+        private Dictionary<string, object?> ToColumnValues()
+        {
+            var result = new Dictionary<string, object?>();
+
+            foreach (var item in this)
+            {
+                // "_input" で終わるものだけ対象
+                if (item.Key.EndsWith("_input"))
+                {
+                    // "_input" を除いた名前をカラム名にする
+                    string columnName = item.Key.Replace("_input", "");
+                    result[columnName] = item.Value;
+                }
+            }
+
+            return result;
+        }
+
+        public (string Sql, Dictionary<string, object?> Parameters) BuildInsert(string tableName)
+        {
+            var values = ToColumnValues();
+
+            var columns = new List<string>();
+            var placeholders = new List<string>();
+            var parameters = new Dictionary<string, object?>();
+
+            foreach (var item in values)
+            {
+                columns.Add(item.Key);
+                placeholders.Add("@" + item.Key);
+                parameters["@" + item.Key] = item.Value;
+            }
+
+            string sql = "INSERT INTO " + tableName +
+                         " (" + string.Join(", ", columns) + ")" +
+                         " VALUES (" + string.Join(", ", placeholders) + ")";
+
+            return (sql, parameters);
         }
     }
 }

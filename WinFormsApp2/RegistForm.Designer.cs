@@ -31,13 +31,13 @@
             name_label = new Label();
             age_label = new Label();
             sex_label = new Label();
-            sex_group = new FlowLayoutPanel();
+            gender_input = new FlowLayoutPanel();
             man_check = new RadioButton();
             woman_check = new RadioButton();
             age_input = new NumericUpDown();
             name_input = new TextBox();
             regist_button = new Button();
-            sex_group.SuspendLayout();
+            gender_input.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)age_input).BeginInit();
             SuspendLayout();
             // 
@@ -68,14 +68,14 @@
             sex_label.TabIndex = 2;
             sex_label.Text = "性別";
             // 
-            // sex_group
+            // gender_input
             // 
-            sex_group.Controls.Add(man_check);
-            sex_group.Controls.Add(woman_check);
-            sex_group.Location = new Point(122, 237);
-            sex_group.Name = "sex_group";
-            sex_group.Size = new Size(355, 43);
-            sex_group.TabIndex = 3;
+            gender_input.Controls.Add(man_check);
+            gender_input.Controls.Add(woman_check);
+            gender_input.Location = new Point(122, 237);
+            gender_input.Name = "gender_input";
+            gender_input.Size = new Size(355, 43);
+            gender_input.TabIndex = 3;
             // 
             // man_check
             // 
@@ -131,15 +131,15 @@
             Controls.Add(regist_button);
             Controls.Add(name_input);
             Controls.Add(age_input);
-            Controls.Add(sex_group);
+            Controls.Add(gender_input);
             Controls.Add(sex_label);
             Controls.Add(age_label);
             Controls.Add(name_label);
             Name = "RegistForm";
             Text = "新規登録";
             Load += RegistForm_Load;
-            sex_group.ResumeLayout(false);
-            sex_group.PerformLayout();
+            gender_input.ResumeLayout(false);
+            gender_input.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)age_input).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -150,7 +150,7 @@
         private Label name_label;
         private Label age_label;
         private Label sex_label;
-        private FlowLayoutPanel sex_group;
+        private FlowLayoutPanel gender_input;
         private RadioButton man_check;
         private RadioButton woman_check;
         private NumericUpDown age_input;

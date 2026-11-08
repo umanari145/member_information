@@ -39,14 +39,14 @@
             sex_label = new Label();
             man_radio_button = new RadioButton();
             woman_radio_button = new RadioButton();
-            sex_group_panel = new Panel();
+            gender_group_panel = new Panel();
             menuStrip1 = new MenuStrip();
             member_menu = new ToolStripMenuItem();
             register_menu_item = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)age_from).BeginInit();
             ((System.ComponentModel.ISupportInitialize)age_to).BeginInit();
-            sex_group_panel.SuspendLayout();
+            gender_group_panel.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -149,14 +149,14 @@
             woman_radio_button.Text = "女性";
             woman_radio_button.UseVisualStyleBackColor = true;
             // 
-            // sex_group_panel
+            // gender_group_panel
             // 
-            sex_group_panel.Controls.Add(woman_radio_button);
-            sex_group_panel.Controls.Add(man_radio_button);
-            sex_group_panel.Location = new Point(92, 434);
-            sex_group_panel.Name = "sex_group_panel";
-            sex_group_panel.Size = new Size(250, 39);
-            sex_group_panel.TabIndex = 13;
+            gender_group_panel.Controls.Add(woman_radio_button);
+            gender_group_panel.Controls.Add(man_radio_button);
+            gender_group_panel.Location = new Point(92, 434);
+            gender_group_panel.Name = "gender_group_panel";
+            gender_group_panel.Size = new Size(250, 39);
+            gender_group_panel.TabIndex = 13;
             // 
             // menuStrip1
             // 
@@ -187,7 +187,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(915, 544);
-            Controls.Add(sex_group_panel);
+            Controls.Add(gender_group_panel);
             Controls.Add(sex_label);
             Controls.Add(range_label);
             Controls.Add(age_label);
@@ -204,8 +204,8 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ((System.ComponentModel.ISupportInitialize)age_from).EndInit();
             ((System.ComponentModel.ISupportInitialize)age_to).EndInit();
-            sex_group_panel.ResumeLayout(false);
-            sex_group_panel.PerformLayout();
+            gender_group_panel.ResumeLayout(false);
+            gender_group_panel.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -225,7 +225,7 @@
         private Label range_label;
         private RadioButton man_radio_button;
         private RadioButton woman_radio_button;
-        private Panel sex_group_panel;
+        private Panel gender_group_panel;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem member_menu;
         private ToolStripMenuItem register_menu_item;

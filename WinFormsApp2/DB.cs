@@ -42,5 +42,22 @@ namespace WinFormsApp2
                 return table;
             }
         }
+
+        public int Execute(string sql, Dictionary<string, object?> parameters)
+        {
+            using (var conn = new SqlConnection(_connStr))
+            using (var cmd = new SqlCommand(sql, conn))
+            {
+                foreach (var p in parameters)
+                {
+                    cmd.Parameters.AddWithValue(p.Key, p.Value ?? DBNull.Value);
+                }
+
+                conn.Open();
+                return cmd.ExecuteNonQuery();
+            }
+        }
     }
+
+
 }
