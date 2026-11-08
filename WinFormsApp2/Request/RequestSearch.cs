@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WinFormsApp2
+namespace WinFormsApp2.Request
 {
-    public class SearchClass
+    public class RequestSearch
     {
         public string? Name { get; set; }
         public int? AgeFrom { get; set; }

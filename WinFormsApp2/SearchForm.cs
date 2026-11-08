@@ -1,6 +1,7 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using WinFormsApp2.Request;
 
 namespace WinFormsApp2
 {
@@ -14,17 +15,17 @@ namespace WinFormsApp2
 
         private void SearchForm_Load(object sender, EventArgs e)
         {
-            LoadAllMembers(new SearchClass());
+            LoadAllMembers(new RequestSearch());
         }
 
-        private void LoadAllMembers(SearchClass search)
+        private void LoadAllMembers(RequestSearch requestSearch)
         {
             try
             {
                 var where = new WhereBuilder();
-                where.AddLike("Name", search.Name);
-                where.AddRange("Age", search.AgeFrom, search.AgeTo, 0, 150);
-                where.AddEqual("Gender", search.Gender);
+                where.AddLike("Name", requestSearch.Name);
+                where.AddRange("Age", requestSearch.AgeFrom, requestSearch.AgeTo, 0, 150);
+                where.AddEqual("Gender", requestSearch.Gender);
 
                 string sql = "SELECT MemberId, Name, Age, Gender FROM Members"
                            + where.ToWhereClause()
@@ -32,6 +33,18 @@ namespace WinFormsApp2
 
                 var table = _db.Query(sql, where.Parameters);
                 dataGridView1.DataSource = table;
+                
+                if (!dataGridView1.Columns.Contains("EditButton"))
+                {
+                    var btnColumn = new DataGridViewButtonColumn();
+                    btnColumn.Name = "EditButton";
+                    btnColumn.HeaderText = "";
+                    btnColumn.Text = "編集";
+                    btnColumn.UseColumnTextForButtonValue = true;
+                    btnColumn.Width = 60;
+
+                    dataGridView1.Columns.Insert(0, btnColumn);
+                }
             }
             catch (Exception ex)
             {
@@ -42,7 +55,7 @@ namespace WinFormsApp2
 
         private void search_button_Click(object sender, EventArgs e)
         {
-            var searchClass = new SearchClass();
+            var searchClass = new RequestSearch();
             searchClass.Name = name.Text.Trim();
             searchClass.AgeFrom = (int)age_from.Value;
             searchClass.AgeTo = (int)age_to.Value;
