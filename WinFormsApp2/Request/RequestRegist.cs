@@ -108,5 +108,33 @@ namespace WinFormsApp2.Request
 
             return (sql, parameters);
         }
+
+        public (string Sql, Dictionary<string, object?> Parameters) BuildUpdate(string tableName, string idColumn, string idValue)
+        {
+            var values = ToColumnValues();
+            var sets = new List<string>();
+            var parameters = new Dictionary<string, object?>();
+
+            foreach (var item in values)
+            {
+                // WHERE 句のキー列は SET に含めない
+                if (string.Equals(item.Key, idColumn, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                sets.Add(item.Key + " = @" + item.Key);
+                parameters["@" + item.Key] = item.Value;
+            }
+
+            // WHERE 句用のパラメータを追加
+            parameters["@" + idColumn] = idValue;
+
+            string sql = "UPDATE " + tableName +
+                         " SET " + string.Join(", ", sets) +
+                         " WHERE " + idColumn + " = @" + idColumn;
+
+            return (sql, parameters);
+        }
     }
 }

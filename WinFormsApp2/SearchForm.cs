@@ -11,11 +11,40 @@ namespace WinFormsApp2
         public SearchForm()
         {
             InitializeComponent();
+
         }
 
         private void SearchForm_Load(object sender, EventArgs e)
         {
             LoadAllMembers(new RequestSearch());
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+        }
+
+        private void dataGridView1_CellContentClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            // ヘッダー行(RowIndex = -1)のクリックは無視
+            if (e.RowIndex < 0) return;
+
+            // 編集ボタン列以外は無視
+            if (dataGridView1.Columns[e.ColumnIndex].Name != "EditButton") return;
+
+            // クリックされた行の MemberId を取得
+            int memberId = Convert.ToInt32(
+                dataGridView1.Rows[e.RowIndex].Cells["MemberId"].Value);
+
+            // 編集画面を開く
+            var form = new RegistForm(memberId); // ① 編集画面を作る
+            try
+            {
+                if (form.ShowDialog() == DialogResult.OK)   // ② 画面を表示して、閉じるまで待つ
+                {
+                    LoadAllMembers(new RequestSearch());    // ③ 保存されていたら一覧を再読み込み
+                }
+            }
+            finally
+            {
+                form.Dispose();                       // ④ 画面を破棄する
+            }
         }
 
         private void LoadAllMembers(RequestSearch requestSearch)
@@ -82,8 +111,18 @@ namespace WinFormsApp2
 
         private void register_menu_item_Click(object sender, EventArgs e)
         {
-            using var form = new RegistForm();
-            form.ShowDialog(this);
+            var form = new RegistForm();
+            try
+            {
+                if (form.ShowDialog(this) == DialogResult.OK)
+                {
+                    LoadAllMembers(new RequestSearch());   // 登録されたら一覧を再読み込み
+                }
+            }
+            finally
+            {
+                form.Dispose();                       // ④ 画面を破棄する
+            }
         }
     }
 }

@@ -136,7 +136,7 @@
             Controls.Add(age_label);
             Controls.Add(name_label);
             Name = "RegistForm";
-            Text = "新規登録";
+            Text = "会員登録";
             Load += RegistForm_Load;
             gender_input.ResumeLayout(false);
             gender_input.PerformLayout();

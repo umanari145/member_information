@@ -16,10 +16,20 @@ namespace WinFormsApp2
     {
         private readonly DB _db = new DB();
 
+        private string? _memberId = null;
+
         public RegistForm()
         {
             InitializeComponent();
             Shown += RegistForm_Shown;
+        }
+
+        // 編集用
+        public RegistForm(int memberId) : this()
+        {
+            _memberId = memberId.ToString();
+            Text = "会員編集";
+            LoadMember(_memberId);
         }
 
         private void RegistForm_Load(object sender, EventArgs e)
@@ -29,10 +39,38 @@ namespace WinFormsApp2
 
         private void RegistForm_Shown(object sender, EventArgs e)
         {
-            man_check.Checked = false;
-            woman_check.Checked = false;
-            name_input.Focus();
+            if (_memberId == null)
+            {
+                man_check.Checked = false;
+                woman_check.Checked = false;
+                name_input.Focus();
+            }
         }
+
+        private void LoadMember(string memberId)
+        {
+            var parameters = new Dictionary<string, object?>();
+            parameters.Add("@MemberId", memberId);
+
+            var table = _db.Query(
+                "SELECT Name, Age, Gender FROM Members WHERE MemberId = @MemberId",
+                parameters);
+
+            if (table.Rows.Count == 0) return;
+
+            var row = table.Rows[0];
+            name_input.Text = row["Name"].ToString();
+            age_input.Value = Convert.ToDecimal(row["Age"]);
+            if (row["Gender"].ToString() == "男性")
+            {
+                man_check.Checked = true;
+            }
+            else if (row["Gender"].ToString() == "女性")
+            {
+                woman_check.Checked = true;
+            }
+        }
+
 
         private void regist_button_Click(object sender, EventArgs e)
         {
@@ -63,11 +101,20 @@ namespace WinFormsApp2
         {
             try
             {
-                var (sql, parameters) = request.BuildInsert("Members");
-                _db.Execute(sql, parameters);
+                if (_memberId == null)
+                {
+                    var (sql, parameters) = request.BuildInsert("Members");
+                    _db.Execute(sql, parameters);
+                }
+                else
+                {
+                    var (sql, parameters) = request.BuildUpdate("Members", "MemberId", _memberId);
+                    _db.Execute(sql, parameters);
+                }
 
                 MessageBox.Show("登録しました。", "完了",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
                 return true;
             }
             catch (Exception ex)

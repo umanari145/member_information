@@ -179,7 +179,7 @@
             // 
             register_menu_item.Name = "register_menu_item";
             register_menu_item.Size = new Size(152, 26);
-            register_menu_item.Text = "新規登録";
+            register_menu_item.Text = "会員登録";
             register_menu_item.Click += register_menu_item_Click;
             // 
             // SearchForm
