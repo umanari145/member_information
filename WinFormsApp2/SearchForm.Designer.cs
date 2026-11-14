@@ -43,6 +43,7 @@
             menuStrip1 = new MenuStrip();
             member_menu = new ToolStripMenuItem();
             register_menu_item = new ToolStripMenuItem();
+            bulk_member_regist_ToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)age_from).BeginInit();
             ((System.ComponentModel.ISupportInitialize)age_to).BeginInit();
@@ -170,7 +171,7 @@
             // 
             // member_menu
             // 
-            member_menu.DropDownItems.AddRange(new ToolStripItem[] { register_menu_item });
+            member_menu.DropDownItems.AddRange(new ToolStripItem[] { register_menu_item, bulk_member_regist_ToolStripMenuItem });
             member_menu.Name = "member_menu";
             member_menu.Size = new Size(83, 24);
             member_menu.Text = "会員管理";
@@ -178,9 +179,16 @@
             // register_menu_item
             // 
             register_menu_item.Name = "register_menu_item";
-            register_menu_item.Size = new Size(152, 26);
+            register_menu_item.Size = new Size(224, 26);
             register_menu_item.Text = "会員登録";
             register_menu_item.Click += register_menu_item_Click;
+            // 
+            // bulk_member_regist_ToolStripMenuItem
+            // 
+            bulk_member_regist_ToolStripMenuItem.Name = "bulk_member_regist_ToolStripMenuItem";
+            bulk_member_regist_ToolStripMenuItem.Size = new Size(224, 26);
+            bulk_member_regist_ToolStripMenuItem.Text = "一括会員登録";
+            bulk_member_regist_ToolStripMenuItem.Click += bulk_member_regist_ToolStripMenuItem_Click;
             // 
             // SearchForm
             // 
@@ -229,5 +237,6 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem member_menu;
         private ToolStripMenuItem register_menu_item;
+        private ToolStripMenuItem bulk_member_regist_ToolStripMenuItem;
     }
 }

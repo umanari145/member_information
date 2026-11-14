@@ -124,5 +124,23 @@ namespace WinFormsApp2
                 form.Dispose();                       // ④ 画面を破棄する
             }
         }
+
+        private void bulk_member_regist_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            try
+            {
+                dialog.Filter = "すべてのファイル (*.*)|*.*";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    MessageBox.Show("選択されたファイル: " + dialog.FileName);
+                }
+            }
+            finally
+            {
+                dialog.Dispose();
+            }
+        }
     }
 }
