@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Data.SqlClient;
+using WinFormsApp2.Factory;
 using WinFormsApp2.Request;
 using WinFormsApp2.Validation;
 using WinFormsApp2.Validation.Rules;
@@ -77,10 +78,7 @@ namespace WinFormsApp2
             var request = new RequestRegist();
             request.Collect(this);
 
-            var validator = new RequestValidator();
-            validator.Add(new RequiredRule("name_input", "名前を入力してください。"));
-            validator.Add(new RangeRule("age_input", 1, 150, "年齢は1〜150の範囲で入力してください。"));
-            validator.Add(new RequiredRule("gender_input", "性別を選択してください。"));
+            var validator = MemberValidatorFactory.Create();
 
             var result = validator.Validate(request);
 

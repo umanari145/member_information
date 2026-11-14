@@ -102,6 +102,7 @@
             // age_input
             // 
             age_input.Location = new Point(125, 151);
+            age_input.Maximum = new decimal(new int[] { 150, 0, 0, 0 });
             age_input.Name = "age_input";
             age_input.Size = new Size(92, 27);
             age_input.TabIndex = 4;
