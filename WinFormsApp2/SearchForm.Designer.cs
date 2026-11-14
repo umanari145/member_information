@@ -97,9 +97,11 @@
             // age_to
             // 
             age_to.Location = new Point(190, 386);
+            age_to.Maximum = new decimal(new int[] { 150, 0, 0, 0 });
             age_to.Name = "age_to";
             age_to.Size = new Size(60, 27);
             age_to.TabIndex = 5;
+            age_to.Value = new decimal(new int[] { 150, 0, 0, 0 });
             // 
             // age_label
             // 
@@ -179,14 +181,14 @@
             // register_menu_item
             // 
             register_menu_item.Name = "register_menu_item";
-            register_menu_item.Size = new Size(224, 26);
+            register_menu_item.Size = new Size(182, 26);
             register_menu_item.Text = "会員登録";
             register_menu_item.Click += register_menu_item_Click;
             // 
             // bulk_member_regist_ToolStripMenuItem
             // 
             bulk_member_regist_ToolStripMenuItem.Name = "bulk_member_regist_ToolStripMenuItem";
-            bulk_member_regist_ToolStripMenuItem.Size = new Size(224, 26);
+            bulk_member_regist_ToolStripMenuItem.Size = new Size(182, 26);
             bulk_member_regist_ToolStripMenuItem.Text = "一括会員登録";
             bulk_member_regist_ToolStripMenuItem.Click += bulk_member_regist_ToolStripMenuItem_Click;
             // 

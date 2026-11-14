@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using WinFormsApp2.Factory;
 using WinFormsApp2.Request;
 using WinFormsApp2.Validation;
 
@@ -12,8 +9,6 @@ namespace WinFormsApp2.File
     public class CSVImport
     {
         private FileResult _fileResult;
-
-        private Func<string[], RequestRegist> _mapper;
 
         private readonly DB _db = new DB();
         private RequestValidator _validator;
@@ -45,7 +40,7 @@ namespace WinFormsApp2.File
                         }
 
                         string[] cols = line.Split(',');
-                        if (IsInvalidColLength(line, cols, fileInfo.colLength, lineNo))
+                        if (IsInvalidColLength(cols, fileInfo.colLength, lineNo))
                         {
                             continue;
                         }
@@ -87,17 +82,17 @@ namespace WinFormsApp2.File
         {
             if (string.IsNullOrWhiteSpace(line))
             {
-                _fileResult.Errors!.Add(lineNo + "行目:" + modCommon.Messages.ImportFileError.EmptyLine);
+                _fileResult.Errors.Add(lineNo + "行目:" + modCommon.Messages.ImportFileError.EmptyLine);
                 return true;
             }
             return false;
         }
 
-        private bool IsInvalidColLength(string line, string[] cols, int colLength, int lineNo)
+        private bool IsInvalidColLength(string[] cols, int colLength, int lineNo)
         {            
             if (cols.Length < colLength)
             {
-                _fileResult.Errors!.Add(lineNo + "行目:" + modCommon.Messages.ImportFileError.ShortageItem);
+                _fileResult.Errors.Add(lineNo + "行目:" + modCommon.Messages.ImportFileError.ShortageItem);
                 return true;
             }
             return false;
@@ -111,7 +106,7 @@ namespace WinFormsApp2.File
             {
                 foreach (var err in validation.Errors)
                 {
-                    _fileResult.Errors!.Add(lineNo + "行目: " + err.Message);
+                    _fileResult.Errors.Add(lineNo + "行目: " + err.Message);
                 }
                 return true;
             }
