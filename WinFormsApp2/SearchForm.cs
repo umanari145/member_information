@@ -1,6 +1,9 @@
 using System.Data;
+using System.Diagnostics;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using WinFormsApp2.Factory;
+using WinFormsApp2.File;
 using WinFormsApp2.Request;
 
 namespace WinFormsApp2
@@ -29,8 +32,7 @@ namespace WinFormsApp2
             if (dataGridView1.Columns[e.ColumnIndex].Name != "EditButton") return;
 
             // クリックされた行の MemberId を取得
-            int memberId = Convert.ToInt32(
-                dataGridView1.Rows[e.RowIndex].Cells["MemberId"].Value);
+            int memberId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["MemberId"].Value);
 
             // 編集画面を開く
             var form = new RegistForm(memberId); // ① 編集画面を作る
@@ -128,19 +130,44 @@ namespace WinFormsApp2
         private void bulk_member_regist_ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "CSVファイルを選択してください";
+            dialog.Filter = "CSVファイル (*.csv)|*.csv|すべてのファイル (*.*)|*.*";
+
+            if (dialog.ShowDialog() != DialogResult.OK)
+            {
+                dialog.Dispose();
+                return;
+            }
+
             try
             {
-                dialog.Filter = "すべてのファイル (*.*)|*.*";
+                string filePath = dialog.FileName;
+                dialog.Dispose();
 
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    MessageBox.Show("選択されたファイル: " + dialog.FileName);
-                }
+                CSVImport importer = new CSVImport(MemberValidatorFactory.Create());
+                FileResult fileResult = importer.ImportCsv(
+
+                    new File.FileInfo(filePath, 3, "Members"),
+                    MapMemberRow
+                );
+
+                MessageBox.Show(fileResult.BuildResultMessage());
             }
             finally
             {
                 dialog.Dispose();
+                LoadAllMembers(new RequestSearch());
             }
+        }
+
+
+        private RequestRegist MapMemberRow(string[] cols)
+        {
+            RequestRegist request = new RequestRegist();
+            request["name_input"] = cols[0].Trim();
+            request["age_input"] = cols[1].Trim();
+            request["gender_input"] = cols[2].Trim();
+            return request;
         }
     }
 }
