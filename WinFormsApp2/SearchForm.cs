@@ -245,7 +245,7 @@ namespace WinFormsApp2
                 }
 
                 string ids = string.Join(",", targetIds);
-                string deleteSql = $"DELETE FROM Members WHERE MemberId IN ({@ids})";
+                string deleteSql = $"DELETE FROM Members WHERE MemberId IN ({string.Join(",", paramNames)})";
 
                 _db.Execute(deleteSql, parameters);
                 MessageBox.Show(modCommon.Messages.ListMember.DeleteSuccess, "完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
