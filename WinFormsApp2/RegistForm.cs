@@ -44,7 +44,7 @@ namespace WinFormsApp2
             {
                 man_check.Checked = false;
                 woman_check.Checked = false;
-                name_input.Focus();
+                name.Focus();
             }
         }
 
@@ -60,8 +60,8 @@ namespace WinFormsApp2
             if (table.Rows.Count == 0) return;
 
             var row = table.Rows[0];
-            name_input.Text = row["Name"].ToString();
-            age_input.Value = Convert.ToDecimal(row["Age"]);
+            name.Text = row["Name"].ToString();
+            age.Value = Convert.ToDecimal(row["Age"]);
             if (row["Gender"].ToString() == "男性")
             {
                 man_check.Checked = true;

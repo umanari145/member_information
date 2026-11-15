@@ -175,9 +175,9 @@ namespace WinFormsApp2
         private RequestRegist MapMemberRow(string[] cols)
         {
             RequestRegist request = new RequestRegist();
-            request["name_input"] = cols[0].Trim();
-            request["age_input"] = cols[1].Trim();
-            request["gender_input"] = cols[2].Trim();
+            request["name"] = cols[0].Trim();
+            request["age"] = cols[1].Trim();
+            request["gender"] = cols[2].Trim();
             return request;
         }
 

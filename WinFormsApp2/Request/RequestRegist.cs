@@ -7,7 +7,6 @@ namespace WinFormsApp2.Request
 {
     public class RequestRegist : Dictionary<string, object?>
     {
-        private const string InputSuffix = "_input";
         /// <summary>
         /// コントロールから値を読み取り、このインスタンスに保持します。
         /// </summary>
@@ -75,13 +74,8 @@ namespace WinFormsApp2.Request
 
             foreach (var item in this)
             {
-                // "_input" で終わるものだけ対象
-                if (item.Key.EndsWith("_input"))
-                {
-                    // "_input" を除いた名前をカラム名にする
-                    string columnName = item.Key.Replace("_input", "");
-                    result[columnName] = item.Value;
-                }
+                string columnName = item.Key;
+                result[columnName] = item.Value;
             }
 
             return result;

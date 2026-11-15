@@ -31,14 +31,14 @@
             name_label = new Label();
             age_label = new Label();
             sex_label = new Label();
-            gender_input = new FlowLayoutPanel();
+            gender = new FlowLayoutPanel();
             man_check = new RadioButton();
             woman_check = new RadioButton();
-            age_input = new NumericUpDown();
-            name_input = new TextBox();
+            age = new NumericUpDown();
+            name = new TextBox();
             regist_button = new Button();
-            gender_input.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)age_input).BeginInit();
+            gender.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)age).BeginInit();
             SuspendLayout();
             // 
             // name_label
@@ -68,14 +68,14 @@
             sex_label.TabIndex = 2;
             sex_label.Text = "性別";
             // 
-            // gender_input
+            // gender
             // 
-            gender_input.Controls.Add(man_check);
-            gender_input.Controls.Add(woman_check);
-            gender_input.Location = new Point(122, 237);
-            gender_input.Name = "gender_input";
-            gender_input.Size = new Size(355, 43);
-            gender_input.TabIndex = 3;
+            gender.Controls.Add(man_check);
+            gender.Controls.Add(woman_check);
+            gender.Location = new Point(122, 237);
+            gender.Name = "gender";
+            gender.Size = new Size(355, 43);
+            gender.TabIndex = 3;
             // 
             // man_check
             // 
@@ -99,20 +99,20 @@
             woman_check.Text = "女性";
             woman_check.UseVisualStyleBackColor = true;
             // 
-            // age_input
+            // age
             // 
-            age_input.Location = new Point(125, 151);
-            age_input.Maximum = new decimal(new int[] { 150, 0, 0, 0 });
-            age_input.Name = "age_input";
-            age_input.Size = new Size(92, 27);
-            age_input.TabIndex = 4;
+            age.Location = new Point(125, 151);
+            age.Maximum = new decimal(new int[] { 150, 0, 0, 0 });
+            age.Name = "age";
+            age.Size = new Size(92, 27);
+            age.TabIndex = 4;
             // 
-            // name_input
+            // name
             // 
-            name_input.Location = new Point(122, 72);
-            name_input.Name = "name_input";
-            name_input.Size = new Size(153, 27);
-            name_input.TabIndex = 5;
+            name.Location = new Point(122, 72);
+            name.Name = "name";
+            name.Size = new Size(153, 27);
+            name.TabIndex = 5;
             // 
             // regist_button
             // 
@@ -130,18 +130,18 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 380);
             Controls.Add(regist_button);
-            Controls.Add(name_input);
-            Controls.Add(age_input);
-            Controls.Add(gender_input);
+            Controls.Add(name);
+            Controls.Add(age);
+            Controls.Add(gender);
             Controls.Add(sex_label);
             Controls.Add(age_label);
             Controls.Add(name_label);
             Name = "RegistForm";
             Text = "会員登録";
             Load += RegistForm_Load;
-            gender_input.ResumeLayout(false);
-            gender_input.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)age_input).EndInit();
+            gender.ResumeLayout(false);
+            gender.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)age).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -151,11 +151,11 @@
         private Label name_label;
         private Label age_label;
         private Label sex_label;
-        private FlowLayoutPanel gender_input;
+        private FlowLayoutPanel gender;
         private RadioButton man_check;
         private RadioButton woman_check;
-        private NumericUpDown age_input;
-        private TextBox name_input;
+        private NumericUpDown age;
+        private TextBox name;
         private Button regist_button;
     }
 }
