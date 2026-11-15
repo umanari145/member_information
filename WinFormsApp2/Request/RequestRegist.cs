@@ -81,7 +81,7 @@ namespace WinFormsApp2.Request
             return result;
         }
 
-        public (string Sql, Dictionary<string, object?> Parameters) BuildInsert(string tableName)
+        public (string Sql, Dictionary<string, object?> Parameters) BuildInsert(string tableName, string idColumn = "Id")
         {
             var values = ToColumnValues();
 
@@ -91,6 +91,11 @@ namespace WinFormsApp2.Request
 
             foreach (var item in values)
             {
+                if (string.Equals(item.Key, idColumn, StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
                 columns.Add(item.Key);
                 placeholders.Add("@" + item.Key);
                 parameters["@" + item.Key] = item.Value;

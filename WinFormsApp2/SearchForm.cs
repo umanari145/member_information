@@ -157,8 +157,8 @@ namespace WinFormsApp2
 
                 CSVImport importer = new CSVImport(MemberValidatorFactory.Create());
                 FileResult fileResult = importer.ImportCsv(
-
-                    new File.FileInfo(filePath, 3, "Members"),
+                    new File.FileInfo(filePath, 4, "Members"),
+                    "MemberId",
                     MapMemberRow
                 );
 
@@ -175,9 +175,10 @@ namespace WinFormsApp2
         private RequestRegist MapMemberRow(string[] cols)
         {
             RequestRegist request = new RequestRegist();
-            request["name"] = cols[0].Trim();
-            request["age"] = cols[1].Trim();
-            request["gender"] = cols[2].Trim();
+            request["MemberId"] = cols[0].Trim();
+            request["name"] = cols[1].Trim();
+            request["age"] = cols[2].Trim();
+            request["gender"] = cols[3].Trim();
             return request;
         }
 

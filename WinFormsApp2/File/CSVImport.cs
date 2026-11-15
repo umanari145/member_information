@@ -19,7 +19,7 @@ namespace WinFormsApp2.File
             _validator = validator;
         }
 
-        public FileResult ImportCsv(FileInfo fileInfo, Func<string[], RequestRegist> _mapper)
+        public FileResult ImportCsv(FileInfo fileInfo, string idColumnName, Func<string[], RequestRegist> _mapper)
         {
             _fileResult = new FileResult();
             StreamReader? reader = null;
@@ -52,11 +52,25 @@ namespace WinFormsApp2.File
                             continue;
                         }
 
-                        var (sql, parameters) = request.BuildInsert(fileInfo.tableName);
-                        _db.Execute(sql, parameters);
-                        _fileResult.InsertCount++;
+                        string? idColumnValue = request.Get<string>(idColumnName);
+                        string sql;
+                        Dictionary<string, object?> parameters;
+                        if (string.IsNullOrEmpty(idColumnValue))
+                        {
+                             (sql, parameters) = request.BuildInsert(fileInfo.tableName, idColumnName);
+                            _db.Execute(sql, parameters);
+                            _fileResult.InsertCount++;
+                        }
+                        else
+                        {
+                            (sql, parameters) = request.BuildUpdate(fileInfo.tableName, idColumnName, idColumnValue);
+                            _db.Execute(sql, parameters);
+                            _fileResult.UpdateCount++;
+                        }
+
+
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         _fileResult.Errors.Add(lineNo + "行目:" + modCommon.Messages.ImportFileError.ExceptionItem + ex.Message);
                     }
@@ -100,7 +114,7 @@ namespace WinFormsApp2.File
 
         private bool IsInValidItem(RequestRegist request, int lineNo)
         {            
-            Validation.ValidationResult  validation = _validator.Validate(request);
+            Validation.ValidationResult validation = _validator.Validate(request);
 
             if (!validation.IsValid)
             {
