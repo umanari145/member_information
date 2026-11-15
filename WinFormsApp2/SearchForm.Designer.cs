@@ -44,6 +44,9 @@
             member_menu = new ToolStripMenuItem();
             register_menu_item = new ToolStripMenuItem();
             bulk_member_regist_ToolStripMenuItem = new ToolStripMenuItem();
+            all_check = new Button();
+            all_uncheck = new Button();
+            delete = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)age_from).BeginInit();
             ((System.ComponentModel.ISupportInitialize)age_to).BeginInit();
@@ -53,7 +56,7 @@
             // 
             // search_button
             // 
-            search_button.Location = new Point(249, 490);
+            search_button.Location = new Point(249, 555);
             search_button.Name = "search_button";
             search_button.Size = new Size(94, 29);
             search_button.TabIndex = 0;
@@ -63,7 +66,7 @@
             // 
             // name
             // 
-            name.Location = new Point(92, 332);
+            name.Location = new Point(92, 390);
             name.Name = "name";
             name.Size = new Size(156, 27);
             name.TabIndex = 1;
@@ -71,7 +74,7 @@
             // name_label
             // 
             name_label.AutoSize = true;
-            name_label.Location = new Point(36, 335);
+            name_label.Location = new Point(36, 393);
             name_label.Name = "name_label";
             name_label.Size = new Size(39, 20);
             name_label.TabIndex = 2;
@@ -80,15 +83,15 @@
             // dataGridView1
             // 
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(36, 45);
+            dataGridView1.Location = new Point(36, 89);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(575, 264);
+            dataGridView1.Size = new Size(575, 248);
             dataGridView1.TabIndex = 3;
             // 
             // age_from
             // 
-            age_from.Location = new Point(92, 386);
+            age_from.Location = new Point(92, 440);
             age_from.Maximum = new decimal(new int[] { 150, 0, 0, 0 });
             age_from.Name = "age_from";
             age_from.Size = new Size(60, 27);
@@ -96,7 +99,7 @@
             // 
             // age_to
             // 
-            age_to.Location = new Point(190, 386);
+            age_to.Location = new Point(190, 440);
             age_to.Maximum = new decimal(new int[] { 150, 0, 0, 0 });
             age_to.Name = "age_to";
             age_to.Size = new Size(60, 27);
@@ -106,7 +109,7 @@
             // age_label
             // 
             age_label.AutoSize = true;
-            age_label.Location = new Point(36, 388);
+            age_label.Location = new Point(36, 447);
             age_label.Name = "age_label";
             age_label.Size = new Size(39, 20);
             age_label.TabIndex = 6;
@@ -115,7 +118,7 @@
             // range_label
             // 
             range_label.AutoSize = true;
-            range_label.Location = new Point(160, 390);
+            range_label.Location = new Point(158, 442);
             range_label.Name = "range_label";
             range_label.Size = new Size(24, 20);
             range_label.TabIndex = 7;
@@ -124,7 +127,7 @@
             // sex_label
             // 
             sex_label.AutoSize = true;
-            sex_label.Location = new Point(36, 440);
+            sex_label.Location = new Point(36, 501);
             sex_label.Name = "sex_label";
             sex_label.Size = new Size(39, 20);
             sex_label.TabIndex = 8;
@@ -156,7 +159,7 @@
             // 
             gender_group_panel.Controls.Add(woman_radio_button);
             gender_group_panel.Controls.Add(man_radio_button);
-            gender_group_panel.Location = new Point(92, 434);
+            gender_group_panel.Location = new Point(92, 501);
             gender_group_panel.Name = "gender_group_panel";
             gender_group_panel.Size = new Size(250, 39);
             gender_group_panel.TabIndex = 13;
@@ -192,11 +195,44 @@
             bulk_member_regist_ToolStripMenuItem.Text = "一括会員登録";
             bulk_member_regist_ToolStripMenuItem.Click += bulk_member_regist_ToolStripMenuItem_Click;
             // 
+            // all_check
+            // 
+            all_check.Location = new Point(36, 49);
+            all_check.Name = "all_check";
+            all_check.Size = new Size(94, 29);
+            all_check.TabIndex = 15;
+            all_check.Text = "全選択";
+            all_check.UseVisualStyleBackColor = true;
+            all_check.Click += all_check_Click;
+            // 
+            // all_uncheck
+            // 
+            all_uncheck.Location = new Point(136, 49);
+            all_uncheck.Name = "all_uncheck";
+            all_uncheck.Size = new Size(94, 29);
+            all_uncheck.TabIndex = 16;
+            all_uncheck.Text = "全解除";
+            all_uncheck.UseVisualStyleBackColor = true;
+            all_uncheck.Click += all_uncheck_Click;
+            // 
+            // delete
+            // 
+            delete.Location = new Point(36, 349);
+            delete.Name = "delete";
+            delete.Size = new Size(86, 26);
+            delete.TabIndex = 17;
+            delete.Text = "削除";
+            delete.UseVisualStyleBackColor = true;
+            delete.Click += delete_Click;
+            // 
             // SearchForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(915, 544);
+            ClientSize = new Size(915, 622);
+            Controls.Add(delete);
+            Controls.Add(all_uncheck);
+            Controls.Add(all_check);
             Controls.Add(gender_group_panel);
             Controls.Add(sex_label);
             Controls.Add(range_label);
@@ -240,5 +276,8 @@
         private ToolStripMenuItem member_menu;
         private ToolStripMenuItem register_menu_item;
         private ToolStripMenuItem bulk_member_regist_ToolStripMenuItem;
+        private Button all_check;
+        private Button all_uncheck;
+        private Button delete;
     }
 }

@@ -21,6 +21,7 @@ namespace WinFormsApp2
         {
             LoadAllMembers(new RequestSearch());
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.AllowUserToAddRows = false;
         }
 
         private void dataGridView1_CellContentClick(object? sender, DataGridViewCellEventArgs e)
@@ -65,21 +66,31 @@ namespace WinFormsApp2
                 var table = _db.Query(sql, where.Parameters);
                 dataGridView1.DataSource = table;
                 
+
+                if (!dataGridView1.Columns.Contains("colCheck"))
+                {
+                    DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
+                    chk.Name = "colCheck";
+                    chk.HeaderText = "選択";
+                    chk.Width = 50;
+                    dataGridView1.Columns.Insert(0, chk);
+                }
+
                 if (!dataGridView1.Columns.Contains("EditButton"))
                 {
-                    var btnColumn = new DataGridViewButtonColumn();
-                    btnColumn.Name = "EditButton";
-                    btnColumn.HeaderText = "";
-                    btnColumn.Text = "編集";
-                    btnColumn.UseColumnTextForButtonValue = true;
-                    btnColumn.Width = 60;
+                    DataGridViewButtonColumn btnColumn1 = new DataGridViewButtonColumn();
+                    btnColumn1.Name = "EditButton";
+                    btnColumn1.HeaderText = "";
+                    btnColumn1.Text = "編集";
+                    btnColumn1.UseColumnTextForButtonValue = true;
+                    btnColumn1.Width = 60;
 
-                    dataGridView1.Columns.Insert(0, btnColumn);
+                    dataGridView1.Columns.Insert(1, btnColumn1);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("会員データの取得に失敗しました。\n" + ex.Message,
+                MessageBox.Show(modCommon.Messages.ListMember.SelectError + "\n" + ex.Message,
                                 "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -168,6 +179,84 @@ namespace WinFormsApp2
             request["age_input"] = cols[1].Trim();
             request["gender_input"] = cols[2].Trim();
             return request;
+        }
+
+        private void all_check_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Cells["colCheck"].Value = true;
+            }
+        }
+
+        private void all_uncheck_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Cells["colCheck"].Value = false;
+            }
+        }
+
+        private void delete_Click(object sender, EventArgs e)
+        {
+            dataGridView1.EndEdit();
+
+             List<int> targetIds = new List<int>();
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                // 最下行の新規入力行などはスキップ
+                if (row.IsNewRow) continue;
+
+                var isChecked = row.Cells["colCheck"].Value;
+                if (isChecked != null && (bool)isChecked == true)
+                {
+                    string? memberIdVal = row.Cells["MemberId"].Value?.ToString();
+                    if (!string.IsNullOrEmpty(memberIdVal))
+                    {
+                        targetIds.Add(Convert.ToInt32(memberIdVal));
+                    }
+                }
+            }
+
+            if (targetIds.Count == 0)
+            {
+                MessageBox.Show(modCommon.Messages.ListMember.NoDeleteData, "確認", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string message = string.Format(modCommon.Messages.ListMember.DeleteConfirm, targetIds.Count);
+            DialogResult result = MessageBox.Show(message, "削除の確認", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                Dictionary<string, object?> parameters = new Dictionary<string, object?>();
+                List<string> paramNames = new List<string>();
+
+                for (int i = 0; i < targetIds.Count; i++)
+                {
+                    string paramName = $"@id{i}";          // "@id0", "@id1", "@id2" ...
+                    paramNames.Add(paramName);             // リストに保持
+                    parameters.Add(paramName, targetIds[i]); // 辞書にパラメータ名と値を追加
+                }
+
+                string ids = string.Join(",", targetIds);
+                string deleteSql = $"DELETE FROM Members WHERE MemberId IN ({@ids})";
+
+                _db.Execute(deleteSql, parameters);
+                MessageBox.Show(modCommon.Messages.ListMember.DeleteSuccess, "完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(modCommon.Messages.ListMember.DeleteError + "\nエラー: " + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+            LoadAllMembers(new RequestSearch());
         }
     }
 }
