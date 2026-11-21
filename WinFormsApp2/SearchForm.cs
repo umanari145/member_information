@@ -14,14 +14,38 @@ namespace WinFormsApp2
         public SearchForm()
         {
             InitializeComponent();
-
         }
 
         private void SearchForm_Load(object sender, EventArgs e)
         {
-            LoadAllMembers(new MemeberRequestSearch());
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.AllowUserToAddRows = false;
+            InitializeGridColumns();   // 列の追加は一度だけ
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            LoadAllMembers(new MemeberRequestSearch());
+        }
+
+        /// <summary>
+        /// チェック列と編集ボタン列を追加します(Load で一度だけ呼ぶ)。
+        /// </summary>
+        private void InitializeGridColumns()
+        {
+            var chk = new DataGridViewCheckBoxColumn
+            {
+                Name = "colCheck",
+                HeaderText = "選択",
+                Width = 50
+            };
+            dataGridView1.Columns.Add(chk);
+
+            var btn = new DataGridViewButtonColumn
+            {
+                Name = "EditButton",
+                HeaderText = "",
+                Text = "編集",
+                UseColumnTextForButtonValue = true,
+                Width = 60
+            };
+            dataGridView1.Columns.Add(btn);
         }
 
         private void dataGridView1_CellContentClick(object? sender, DataGridViewCellEventArgs e)
@@ -63,28 +87,6 @@ namespace WinFormsApp2
 
                 var table = _db.Query(sql, memberRequestSearch.Parameters);
                 dataGridView1.DataSource = table;
-                
-
-                if (!dataGridView1.Columns.Contains("colCheck"))
-                {
-                    DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
-                    chk.Name = "colCheck";
-                    chk.HeaderText = "選択";
-                    chk.Width = 50;
-                    dataGridView1.Columns.Insert(0, chk);
-                }
-
-                if (!dataGridView1.Columns.Contains("EditButton"))
-                {
-                    DataGridViewButtonColumn btnColumn1 = new DataGridViewButtonColumn();
-                    btnColumn1.Name = "EditButton";
-                    btnColumn1.HeaderText = "";
-                    btnColumn1.Text = "編集";
-                    btnColumn1.UseColumnTextForButtonValue = true;
-                    btnColumn1.Width = 60;
-
-                    dataGridView1.Columns.Insert(1, btnColumn1);
-                }
             }
             catch (Exception ex)
             {
@@ -122,17 +124,10 @@ namespace WinFormsApp2
 
         private void register_menu_item_Click(object sender, EventArgs e)
         {
-            var form = new RegistForm();
-            try
+            using var form = new RegistForm();
+            if (form.ShowDialog(this) == DialogResult.OK)
             {
-                if (form.ShowDialog(this) == DialogResult.OK)
-                {
-                    LoadAllMembers(new MemeberRequestSearch());   // 登録されたら一覧を再読み込み
-                }
-            }
-            finally
-            {
-                form.Dispose();                       // 画面を破棄する
+                LoadAllMembers(new MemeberRequestSearch());   // 登録されたら一覧を再読み込み
             }
         }
 
