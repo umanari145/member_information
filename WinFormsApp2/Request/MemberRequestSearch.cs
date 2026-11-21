@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WinFormsApp2.Request
 {
-    public class MemeberRequestSearch : RequestSearch
+    public class MemberRequestSearch : RequestSearch
     {
         public string? Name { get; set; }
         public int? AgeFrom { get; set; }

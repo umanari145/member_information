@@ -21,7 +21,7 @@ namespace WinFormsApp2
             dataGridView1.AllowUserToAddRows = false;
             InitializeGridColumns();   // 列の追加は一度だけ
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-            LoadAllMembers(new MemeberRequestSearch());
+            LoadAllMembers(new MemberRequestSearch());
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace WinFormsApp2
                 using var form = new RegistForm(memberId); // ① 編集画面を作る
                 if (form.ShowDialog() == DialogResult.OK)   // ② 画面を表示して、閉じるまで待つ
                 {
-                    LoadAllMembers(new MemeberRequestSearch()); // ③ 保存されていたら一覧を再読み込み
+                    LoadAllMembers(new MemberRequestSearch()); // ③ 保存されていたら一覧を再読み込み
                 }
             }
             catch(Exception ex)
@@ -75,7 +75,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void LoadAllMembers(MemeberRequestSearch memberRequestSearch)
+        private void LoadAllMembers(MemberRequestSearch memberRequestSearch)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace WinFormsApp2
 
         private void search_button_Click(object sender, EventArgs e)
         {
-            var memberSearchClass = new MemeberRequestSearch();
+            var memberSearchClass = new MemberRequestSearch();
             memberSearchClass.Name = name.Text.Trim();
             memberSearchClass.AgeFrom = (int)age_from.Value;
             memberSearchClass.AgeTo = (int)age_to.Value;
@@ -127,7 +127,7 @@ namespace WinFormsApp2
             using var form = new RegistForm();
             if (form.ShowDialog(this) == DialogResult.OK)
             {
-                LoadAllMembers(new MemeberRequestSearch());   // 登録されたら一覧を再読み込み
+                LoadAllMembers(new MemberRequestSearch());   // 登録されたら一覧を再読み込み
             }
         }
 
@@ -160,7 +160,7 @@ namespace WinFormsApp2
             finally
             {
                 dialog.Dispose();
-                LoadAllMembers(new MemeberRequestSearch());
+                LoadAllMembers(new MemberRequestSearch());
             }
         }
 
@@ -207,7 +207,7 @@ namespace WinFormsApp2
                 MessageBox.Show(modCommon.Messages.ListMember.DeleteError + "\nエラー: " + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            LoadAllMembers(new MemeberRequestSearch());
+            LoadAllMembers(new MemberRequestSearch());
         }
 
         private List<int> GetCheckedMemberIds()
