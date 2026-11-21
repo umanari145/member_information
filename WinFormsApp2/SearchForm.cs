@@ -34,19 +34,20 @@ namespace WinFormsApp2
 
             // クリックされた行の MemberId を取得
             int memberId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["MemberId"].Value);
-
-            // 編集画面を開く
-            var form = new RegistForm(memberId); // ① 編集画面を作る
+            
             try
             {
+                // 編集画面を開く
+                using var form = new RegistForm(memberId); // ① 編集画面を作る
                 if (form.ShowDialog() == DialogResult.OK)   // ② 画面を表示して、閉じるまで待つ
                 {
                     LoadAllMembers(new RequestSearch());    // ③ 保存されていたら一覧を再読み込み
                 }
             }
-            finally
+            catch(Exception ex)
             {
-                form.Dispose();                       // ④ 画面を破棄する
+                MessageBox.Show(modCommon.Messages.SearchForm.EditOpenError + "\n" + ex.Message,
+                    "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -134,7 +135,7 @@ namespace WinFormsApp2
             }
             finally
             {
-                form.Dispose();                       // ④ 画面を破棄する
+                form.Dispose();                       // 画面を破棄する
             }
         }
 

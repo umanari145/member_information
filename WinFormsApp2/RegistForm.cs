@@ -19,6 +19,7 @@ namespace WinFormsApp2
 
         private string? _memberId = null;
 
+        private readonly string _tableName = "Members";
         public RegistForm()
         {
             InitializeComponent();
@@ -30,12 +31,17 @@ namespace WinFormsApp2
         {
             _memberId = memberId.ToString();
             Text = "会員編集";
-            LoadMember(_memberId);
+        　　// コンストラクタ内でDBアクセスをさせない
+            // オブジェクトが作れないので例外の扱いが難しい
+            // 責務の分離が難しい
         }
 
         private void RegistForm_Load(object sender, EventArgs e)
         {
-
+            if (_memberId != null)
+            {
+                LoadMember(_memberId);
+            }
         }
 
         private void RegistForm_Shown(object sender, EventArgs e)
@@ -50,28 +56,38 @@ namespace WinFormsApp2
 
         private void LoadMember(string memberId)
         {
-            var parameters = new Dictionary<string, object?>();
-            parameters.Add("@MemberId", memberId);
-
-            var table = _db.Query(
-                "SELECT Name, Age, Gender FROM Members WHERE MemberId = @MemberId",
-                parameters);
-
-            if (table.Rows.Count == 0) return;
-
-            var row = table.Rows[0];
-            name.Text = row["Name"].ToString();
-            age.Value = Convert.ToDecimal(row["Age"]);
-            if (row["Gender"].ToString() == "男性")
+            try
             {
-                man_check.Checked = true;
+                var parameters = new Dictionary<string, object?>();
+                parameters.Add("@MemberId", memberId);
+
+                var table = _db.Query(
+                    $"SELECT Name, Age, Gender FROM {_tableName} WHERE MemberId = @MemberId",
+                    parameters);
+
+                if (table.Rows.Count == 0) return;
+
+                var row = table.Rows[0];
+                name.Text = row["Name"].ToString();
+                age.Value = Convert.ToDecimal(row["Age"]);
+                if (row["Gender"].ToString() == "男性")
+                {
+                    man_check.Checked = true;
+                }
+                else if (row["Gender"].ToString() == "女性")
+                {
+                    woman_check.Checked = true;
+                }
             }
-            else if (row["Gender"].ToString() == "女性")
+            catch (Exception ex)
             {
-                woman_check.Checked = true;
+                MessageBox.Show(modCommon.Messages.RegistForm.LoadFailed + "\n" + ex.Message,
+                                "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // これでformの戻り値の設定される
+                DialogResult = DialogResult.Cancel;
+                Close();
             }
         }
-
 
         private void regist_button_Click(object sender, EventArgs e)
         {
@@ -99,25 +115,28 @@ namespace WinFormsApp2
         {
             try
             {
+                string message = string.Empty;
+                request.Collect(this);
+
                 if (_memberId == null)
                 {
-                    var (sql, parameters) = request.BuildInsert("Members");
-                    _db.Execute(sql, parameters);
+                    _db.Insert(_tableName, request, "MemberId");
+                    message = modCommon.Messages.RegistForm.InsertSuccess;
                 }
                 else
                 {
-                    var (sql, parameters) = request.BuildUpdate("Members", "MemberId", _memberId);
-                    _db.Execute(sql, parameters);
+                    _db.Update(_tableName, request, "MemberId", _memberId);
+                    message = modCommon.Messages.RegistForm.UpdateSuccess;
                 }
 
-                MessageBox.Show("登録しました。", "完了",
+                MessageBox.Show(message, "完了",
                                 MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
                 return true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("会員データの登録に失敗しました。\n" + ex.Message,
+                MessageBox.Show(modCommon.Messages.RegistForm.RegistFailed + "\n" + ex.StackTrace,
                                 "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 return false;

@@ -6,6 +6,31 @@ namespace WinFormsApp2.modCommon
 {
     public static class Messages
     {
+
+        public static class SearchForm
+        {
+            public const string EditOpenError = "編集画面を開けませんでした。";
+        }
+
+        public static class RegistForm
+        {
+            public const string LoadFailed = "会員データの読み込みに失敗しました。";
+
+            public const string InsertSuccess = "新規会員を登録しました。";
+            public const string UpdateSuccess = "会員情報を更新しました。";
+            public const string RegistFailed = "会員データの登録に失敗しました。";
+        }
+
+
+        public static class DBError
+        {
+            public const string CannotOpenFile = "接続文字列 {0} が appsettings.json に見つかりません。";
+            public const string NotExistInsertColumn = "INSERT 対象の列がありません。";
+
+            public const string NotExistUpdateColumn = "UPDATE 対象の列がありません。";
+        }
+
+
         public static class ImportFileError
         {
             public const string CannotOpneFile = "ファイルの開閉に失敗しました。";

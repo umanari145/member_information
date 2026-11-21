@@ -45,26 +45,22 @@ namespace WinFormsApp2.File
                             continue;
                         }
 
-                        RequestRegist request = _mapper(cols);
+                        RequestRegist requestRegist = _mapper(cols);
 
-                        if (IsInValidItem(request, lineNo))
+                        if (IsInValidItem(requestRegist, lineNo))
                         {
                             continue;
                         }
 
-                        string? idColumnValue = request.Get<string>(idColumnName);
-                        string sql;
-                        Dictionary<string, object?> parameters;
+                        string? idColumnValue = requestRegist.Get<string>(idColumnName);
                         if (string.IsNullOrEmpty(idColumnValue))
                         {
-                             (sql, parameters) = request.BuildInsert(fileInfo.tableName, idColumnName);
-                            _db.Execute(sql, parameters);
+                             _db.Insert(fileInfo.tableName, requestRegist, idColumnName);
                             _fileResult.InsertCount++;
                         }
                         else
-                        {
-                            (sql, parameters) = request.BuildUpdate(fileInfo.tableName, idColumnName, idColumnValue);
-                            _db.Execute(sql, parameters);
+                        {                                                
+                            _db.Update(fileInfo.tableName, requestRegist, idColumnName, idColumnValue);
                             _fileResult.UpdateCount++;
                         }
 
