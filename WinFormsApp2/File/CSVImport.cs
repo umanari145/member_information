@@ -55,7 +55,7 @@ namespace WinFormsApp2.File
                         string? idColumnValue = requestRegist.Get<string>(idColumnName);
                         if (string.IsNullOrEmpty(idColumnValue))
                         {
-                             _db.Insert(fileInfo.tableName, requestRegist, idColumnName);
+                            _db.Insert(fileInfo.tableName, requestRegist, idColumnName);
                             _fileResult.InsertCount++;
                         }
                         else

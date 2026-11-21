@@ -19,7 +19,7 @@ namespace WinFormsApp2
 
         private void SearchForm_Load(object sender, EventArgs e)
         {
-            LoadAllMembers(new RequestSearch());
+            LoadAllMembers(new MemeberRequestSearch());
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.AllowUserToAddRows = false;
         }
@@ -41,7 +41,7 @@ namespace WinFormsApp2
                 using var form = new RegistForm(memberId); // ① 編集画面を作る
                 if (form.ShowDialog() == DialogResult.OK)   // ② 画面を表示して、閉じるまで待つ
                 {
-                    LoadAllMembers(new RequestSearch());    // ③ 保存されていたら一覧を再読み込み
+                    LoadAllMembers(new MemeberRequestSearch()); // ③ 保存されていたら一覧を再読み込み
                 }
             }
             catch(Exception ex)
@@ -51,20 +51,17 @@ namespace WinFormsApp2
             }
         }
 
-        private void LoadAllMembers(RequestSearch requestSearch)
+        private void LoadAllMembers(MemeberRequestSearch memberRequestSearch)
         {
             try
             {
-                var where = new WhereBuilder();
-                where.AddLike("Name", requestSearch.Name);
-                where.AddRange("Age", requestSearch.AgeFrom, requestSearch.AgeTo, 0, 150);
-                where.AddEqual("Gender", requestSearch.Gender);
+                memberRequestSearch.build();
 
                 string sql = "SELECT MemberId, Name, Age, Gender FROM Members"
-                           + where.ToWhereClause()
+                           + memberRequestSearch.ToWhereClause()
                            + " ORDER BY MemberId";
 
-                var table = _db.Query(sql, where.Parameters);
+                var table = _db.Query(sql, memberRequestSearch.Parameters);
                 dataGridView1.DataSource = table;
                 
 
@@ -98,13 +95,13 @@ namespace WinFormsApp2
 
         private void search_button_Click(object sender, EventArgs e)
         {
-            var searchClass = new RequestSearch();
-            searchClass.Name = name.Text.Trim();
-            searchClass.AgeFrom = (int)age_from.Value;
-            searchClass.AgeTo = (int)age_to.Value;
-            searchClass.Gender = GetSelectedGender();
+            var memberSearchClass = new MemeberRequestSearch();
+            memberSearchClass.Name = name.Text.Trim();
+            memberSearchClass.AgeFrom = (int)age_from.Value;
+            memberSearchClass.AgeTo = (int)age_to.Value;
+            memberSearchClass.Gender = GetSelectedGender();
 
-            LoadAllMembers(searchClass);
+            LoadAllMembers(memberSearchClass);
         }
 
         private string? GetSelectedGender()
@@ -130,7 +127,7 @@ namespace WinFormsApp2
             {
                 if (form.ShowDialog(this) == DialogResult.OK)
                 {
-                    LoadAllMembers(new RequestSearch());   // 登録されたら一覧を再読み込み
+                    LoadAllMembers(new MemeberRequestSearch());   // 登録されたら一覧を再読み込み
                 }
             }
             finally
@@ -168,7 +165,7 @@ namespace WinFormsApp2
             finally
             {
                 dialog.Dispose();
-                LoadAllMembers(new RequestSearch());
+                LoadAllMembers(new MemeberRequestSearch());
             }
         }
 
@@ -258,7 +255,7 @@ namespace WinFormsApp2
             }
 
 
-            LoadAllMembers(new RequestSearch());
+            LoadAllMembers(new MemeberRequestSearch());
         }
     }
 }
