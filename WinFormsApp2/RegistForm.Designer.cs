@@ -122,7 +122,7 @@
             regist_button.TabIndex = 6;
             regist_button.Text = "登録";
             regist_button.UseVisualStyleBackColor = true;
-            regist_button.Click += regist_button_Click;
+            regist_button.Click += save_button_Click;
             // 
             // RegistForm
             // 

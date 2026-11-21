@@ -89,7 +89,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void regist_button_Click(object sender, EventArgs e)
+        private void save_button_Click(object sender, EventArgs e)
         {
             var request = new RequestRegist();
             request.Collect(this);
@@ -104,14 +104,14 @@ namespace WinFormsApp2
                 return;
             }
 
-            if (insert_member(request))
+            if (save_member(request))
             {
                 Close();
             }
 
         }
 
-        private bool insert_member(RequestRegist request)
+        private bool save_member(RequestRegist request)
         {
             try
             {
