@@ -132,6 +132,34 @@ namespace WinFormsApp2
             return Execute(sql, parameters);
         }
 
+        // DB クラス
+        public int DeleteByIds(string tableName, string idColumn, IReadOnlyList<int> ids)
+        {
+            if (ids.Count == 0)
+            {
+                return 0;
+            }
+
+            var parameters = new Dictionary<string, object?>();
+            var paramNames = new List<string>();
+
+            for (int i = 0; i < ids.Count; i++)
+            {
+                string paramName = "@id" + i;
+                paramNames.Add(paramName);
+                parameters[paramName] = ids[i];
+            }
+
+            string sql = string.Format(
+                "DELETE FROM {0} WHERE {1} IN ({2})",
+                QuoteIdentifier(tableName),
+                QuoteIdentifier(idColumn),
+                string.Join(", ", paramNames));
+
+            return Execute(sql, parameters);
+        }
+
+
         /// <summary>
         /// テーブル名・列名を [ ] で囲み、SQLインジェクションを防ぎます。
         /// </summary>

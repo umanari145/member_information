@@ -198,25 +198,7 @@ namespace WinFormsApp2
 
         private void delete_Click(object sender, EventArgs e)
         {
-            dataGridView1.EndEdit();
-
-             List<int> targetIds = new List<int>();
-
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                // 最下行の新規入力行などはスキップ
-                if (row.IsNewRow) continue;
-
-                var isChecked = row.Cells["colCheck"].Value;
-                if (isChecked != null && (bool)isChecked == true)
-                {
-                    string? memberIdVal = row.Cells["MemberId"].Value?.ToString();
-                    if (!string.IsNullOrEmpty(memberIdVal))
-                    {
-                        targetIds.Add(Convert.ToInt32(memberIdVal));
-                    }
-                }
-            }
+            List<int> targetIds = GetCheckedMemberIds();
 
             if (targetIds.Count == 0)
             {
@@ -233,20 +215,7 @@ namespace WinFormsApp2
 
             try
             {
-                Dictionary<string, object?> parameters = new Dictionary<string, object?>();
-                List<string> paramNames = new List<string>();
-
-                for (int i = 0; i < targetIds.Count; i++)
-                {
-                    string paramName = $"@id{i}";          // "@id0", "@id1", "@id2" ...
-                    paramNames.Add(paramName);             // リストに保持
-                    parameters.Add(paramName, targetIds[i]); // 辞書にパラメータ名と値を追加
-                }
-
-                string ids = string.Join(",", targetIds);
-                string deleteSql = $"DELETE FROM Members WHERE MemberId IN ({string.Join(",", paramNames)})";
-
-                _db.Execute(deleteSql, parameters);
+                _db.DeleteByIds("Members", "MemberId", targetIds);
                 MessageBox.Show(modCommon.Messages.ListMember.DeleteSuccess, "完了", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
@@ -254,8 +223,24 @@ namespace WinFormsApp2
                 MessageBox.Show(modCommon.Messages.ListMember.DeleteError + "\nエラー: " + ex.Message, "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-
             LoadAllMembers(new MemeberRequestSearch());
+        }
+
+        private List<int> GetCheckedMemberIds()
+        {
+            dataGridView1.EndEdit();
+            var ids = new List<int>();
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.IsNewRow) continue;
+
+                if (row.Cells["colCheck"].Value is true)
+                {
+                    ids.Add(Convert.ToInt32(row.Cells["MemberId"].Value));
+                }
+            }
+            return ids;
         }
     }
 }
