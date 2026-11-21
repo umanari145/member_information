@@ -152,7 +152,7 @@ namespace WinFormsApp2
                 FileResult fileResult = importer.ImportCsv(
                     new File.FileInfo(filePath, 4, "Members"),
                     "MemberId",
-                    MapMemberRow
+                    MemberCsvMapper.MapMemberRow
                 );
 
                 MessageBox.Show(fileResult.BuildResultMessage());
@@ -162,17 +162,6 @@ namespace WinFormsApp2
                 dialog.Dispose();
                 LoadAllMembers(new MemeberRequestSearch());
             }
-        }
-
-
-        private RequestRegist MapMemberRow(string[] cols)
-        {
-            RequestRegist request = new RequestRegist();
-            request["MemberId"] = cols[0].Trim();
-            request["name"] = cols[1].Trim();
-            request["age"] = cols[2].Trim();
-            request["gender"] = cols[3].Trim();
-            return request;
         }
 
         private void all_check_Click(object sender, EventArgs e)
