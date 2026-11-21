@@ -20,7 +20,7 @@ namespace TestProject.Request
 
         [TestMethod]
         [DynamicData(nameof(GetPatterns))]
-        public void Build_条件句のWHERE句の判定(
+        public void Build条件句のWHERE句の判定(
             string? name,
             int? ageFrom,
             int? ageTo,

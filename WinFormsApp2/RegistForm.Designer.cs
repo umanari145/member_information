@@ -122,7 +122,7 @@
             regist_button.TabIndex = 6;
             regist_button.Text = "登録";
             regist_button.UseVisualStyleBackColor = true;
-            regist_button.Click += Save_button_Click;
+            regist_button.Click += SaveButtonClick;
             // 
             // RegistForm
             // 
@@ -138,7 +138,7 @@
             Controls.Add(name_label);
             Name = "RegistForm";
             Text = "会員登録";
-            Load += RegistForm_Load;
+            Load += RegistFormLoad;
             gender.ResumeLayout(false);
             gender.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)age).EndInit();

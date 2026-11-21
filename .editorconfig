@@ -30,6 +30,8 @@ dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case_style
 dotnet_naming_rule.members_should_be_pascal_case.severity = error
 dotnet_naming_rule.members_should_be_pascal_case.symbols = member_symbols
 dotnet_naming_rule.members_should_be_pascal_case.style = pascal_case_style
+dotnet_diagnostic.CA1707.severity = error
+dotnet_code_quality.CA1707.api_surface = all
 
 # private フィールドは _camelCase(例: _count)
 dotnet_naming_rule.private_fields_should_be_underscore_camel.severity = error

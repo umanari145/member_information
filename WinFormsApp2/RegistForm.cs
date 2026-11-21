@@ -23,7 +23,7 @@ namespace WinFormsApp2
         public RegistForm()
         {
             InitializeComponent();
-            Shown += RegistForm_Shown;
+            Shown += RegistFormShown;
         }
 
         // 編集用
@@ -36,7 +36,7 @@ namespace WinFormsApp2
             // 責務の分離が難しい
         }
 
-        private void RegistForm_Load(object sender, EventArgs e)
+        private void RegistFormLoad(object sender, EventArgs e)
         {
             if (_memberId != null)
             {
@@ -44,7 +44,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void RegistForm_Shown(object sender, EventArgs e)
+        private void RegistFormShown(object sender, EventArgs e)
         {
             if (_memberId == null)
             {
@@ -89,7 +89,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void Save_button_Click(object sender, EventArgs e)
+        private void SaveButtonClick(object sender, EventArgs e)
         {
             var request = new RequestRegist();
             request.Collect(this);
@@ -104,13 +104,13 @@ namespace WinFormsApp2
                 return;
             }
 
-            if (Save_member(request))
+            if (SaveMember(request))
             {
                 Close();
             }
         }
 
-        private bool Save_member(RequestRegist request)
+        private bool SaveMember(RequestRegist request)
         {
             try
             {

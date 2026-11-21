@@ -18,7 +18,7 @@ namespace WinFormsApp2.File
             _validator = validator;
         }
 
-        public FileResult ImportCsv(FileInfo fileInfo, string idColumnName, Func<string[], RequestRegist> _mapper)
+        public FileResult ImportCsv(FileInfo fileInfo, string idColumnName, Func<string[], RequestRegist> mapper)
         {
             _fileResult = new FileResult();
             StreamReader? reader = null;
@@ -44,7 +44,7 @@ namespace WinFormsApp2.File
                             continue;
                         }
 
-                        RequestRegist requestRegist = _mapper(cols);
+                        RequestRegist requestRegist = mapper(cols);
 
                         if (IsInValidItem(requestRegist, lineNo))
                         {
