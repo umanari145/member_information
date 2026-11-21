@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace WinFormsApp2.Request
 {
     public class MemberRequestSearch : RequestSearch

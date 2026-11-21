@@ -1,7 +1,3 @@
-using System.Data;
-using System.Diagnostics;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using WinFormsApp2.Factory;
 using WinFormsApp2.File;
 using WinFormsApp2.Request;

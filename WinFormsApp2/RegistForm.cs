@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.Data.SqlClient;
-using WinFormsApp2.Factory;
+﻿using WinFormsApp2.Factory;
 using WinFormsApp2.Request;
-using WinFormsApp2.Validation;
-using WinFormsApp2.Validation.Rules;
 
 namespace WinFormsApp2
 {

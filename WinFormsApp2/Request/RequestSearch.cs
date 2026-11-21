@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Data.SqlClient;
-
+﻿
 namespace WinFormsApp2.Request
 {
     public class RequestSearch
