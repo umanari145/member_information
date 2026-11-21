@@ -16,7 +16,7 @@ namespace WinFormsApp2.Request
             get { return _parameters; }
         }
 
-        public void AddLike(string column, string? value)
+        protected void AddLike(string column, string? value)
         {
             if (IsEmpty(value)) return;
 
@@ -24,7 +24,7 @@ namespace WinFormsApp2.Request
             _parameters["@" + column] = "%" + value + "%";
         }
 
-        public void AddEqual(string column, object? value)
+        protected void AddEqual(string column, object? value)
         {
             if (value == null) return;
 
@@ -32,7 +32,7 @@ namespace WinFormsApp2.Request
             _parameters["@" + column] = value;
         }
 
-        public void AddRange(string column, int? from, int? to, int min, int max)
+        protected void AddRange(string column, int? from, int? to, int min, int max)
         {
             // 下限は min より大きいときだけ条件にする
             if (from.HasValue && from.Value > min)
@@ -60,7 +60,6 @@ namespace WinFormsApp2.Request
             if (value == null) return true;
             if (value is string s) return string.IsNullOrWhiteSpace(s);
             return false;
-
         }
     }
 }
