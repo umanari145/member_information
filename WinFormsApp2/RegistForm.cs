@@ -31,7 +31,7 @@ namespace WinFormsApp2
         {
             _memberId = memberId.ToString();
             Text = "会員編集";
-        　　// コンストラクタ内でDBアクセスをさせない
+            // コンストラクタ内でDBアクセスをさせない
             // オブジェクトが作れないので例外の扱いが難しい
             // 責務の分離が難しい
         }
@@ -89,7 +89,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void save_button_Click(object sender, EventArgs e)
+        private void Save_button_Click(object sender, EventArgs e)
         {
             var request = new RequestRegist();
             request.Collect(this);
@@ -104,14 +104,13 @@ namespace WinFormsApp2
                 return;
             }
 
-            if (save_member(request))
+            if (Save_member(request))
             {
                 Close();
             }
-
         }
 
-        private bool save_member(RequestRegist request)
+        private bool Save_member(RequestRegist request)
         {
             try
             {
@@ -141,8 +140,6 @@ namespace WinFormsApp2
 
                 return false;
             }
-
         }
-
     }
 }

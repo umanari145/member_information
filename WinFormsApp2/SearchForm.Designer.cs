@@ -62,7 +62,7 @@
             search_button.TabIndex = 0;
             search_button.Text = "検索";
             search_button.UseVisualStyleBackColor = true;
-            search_button.Click += search_button_Click;
+            search_button.Click += Search_button_Click;
             // 
             // name
             // 
@@ -186,14 +186,14 @@
             register_menu_item.Name = "register_menu_item";
             register_menu_item.Size = new Size(182, 26);
             register_menu_item.Text = "会員登録";
-            register_menu_item.Click += register_menu_item_Click;
+            register_menu_item.Click += Register_menu_item_Click;
             // 
             // bulk_member_regist_ToolStripMenuItem
             // 
             bulk_member_regist_ToolStripMenuItem.Name = "bulk_member_regist_ToolStripMenuItem";
             bulk_member_regist_ToolStripMenuItem.Size = new Size(182, 26);
             bulk_member_regist_ToolStripMenuItem.Text = "一括会員登録";
-            bulk_member_regist_ToolStripMenuItem.Click += bulk_member_regist_ToolStripMenuItem_Click;
+            bulk_member_regist_ToolStripMenuItem.Click += BulkMemberRegistToolStripMenuItemClick;
             // 
             // all_check
             // 
@@ -203,7 +203,7 @@
             all_check.TabIndex = 15;
             all_check.Text = "全選択";
             all_check.UseVisualStyleBackColor = true;
-            all_check.Click += all_check_Click;
+            all_check.Click += All_check_Click;
             // 
             // all_uncheck
             // 
@@ -213,7 +213,7 @@
             all_uncheck.TabIndex = 16;
             all_uncheck.Text = "全解除";
             all_uncheck.UseVisualStyleBackColor = true;
-            all_uncheck.Click += all_uncheck_Click;
+            all_uncheck.Click += All_uncheck_Click;
             // 
             // delete
             // 
@@ -223,7 +223,7 @@
             delete.TabIndex = 17;
             delete.Text = "削除";
             delete.UseVisualStyleBackColor = true;
-            delete.Click += delete_Click;
+            delete.Click += Delete_Click;
             // 
             // SearchForm
             // 

@@ -5,7 +5,7 @@ using Microsoft.Data.SqlClient;
 
 namespace WinFormsApp2.Request
 {
-    public  class RequestSearch
+    public class RequestSearch
     {
         /// <summary>
         /// 「列 演算子 値」の条件を追加する。値が空なら何もしない。
@@ -64,6 +64,7 @@ namespace WinFormsApp2.Request
             if (value == null) return true;
             if (value is string s) return string.IsNullOrWhiteSpace(s);
             return false;
+
         }
     }
 }

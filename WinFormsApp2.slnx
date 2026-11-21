@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Folder Name="/ソリューション項目/" />
   <Project Path="TestProject/TestProject.csproj" Id="668b5d02-4f66-43fc-95d6-f39825e25114" />
   <Project Path="WinFormsApp2/WinFormsApp2.csproj" />
 </Solution>

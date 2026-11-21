@@ -6,15 +6,15 @@ namespace WinFormsApp2.File
 {
     public class FileInfo
     {
-        public string filePath { get; set; }
-        public int colLength { get; set; }
-        public  string tableName { get; set; }
+        public string FilePath { get; set; }
+        public int ColLength { get; set; }
+        public string TableName { get; set; }
 
         public FileInfo(string filePath, int colLength, string tableName)
         {
-            this.filePath = filePath;
-            this.colLength = colLength;
-            this.tableName = tableName;
+            this.FilePath = filePath;
+            this.ColLength = colLength;
+            this.TableName = tableName;
         }
     }
 }

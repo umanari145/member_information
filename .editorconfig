@@ -1,0 +1,153 @@
+root = true
+
+[*.cs]
+
+#### 基本設定 ####
+
+# インデントはスペースを使う(タブは使わない)
+indent_style = space
+# インデント幅は4スペース
+indent_size = 4
+# 改行コードは CRLF(Windows 形式)
+end_of_line = crlf
+# ファイル末尾の改行は必須にしない
+insert_final_newline = false
+
+#### 命名規則(違反はエラー) ####
+
+# インターフェースは I で始める(例: IService)
+# 「rule」は、どのシンボル(symbols)にどのスタイル(style)をどの重大度(severity)で適用するかを定義する
+dotnet_naming_rule.interface_should_begin_with_i.severity = error
+dotnet_naming_rule.interface_should_begin_with_i.symbols = interface_symbols
+dotnet_naming_rule.interface_should_begin_with_i.style = begins_with_i
+
+# 型(class / struct / enum)は PascalCase(例: MemberRequest)
+dotnet_naming_rule.types_should_be_pascal_case.severity = error
+dotnet_naming_rule.types_should_be_pascal_case.symbols = type_symbols
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case_style
+
+# メソッド・プロパティ・イベントは PascalCase(例: ValCheck)
+dotnet_naming_rule.members_should_be_pascal_case.severity = error
+dotnet_naming_rule.members_should_be_pascal_case.symbols = member_symbols
+dotnet_naming_rule.members_should_be_pascal_case.style = pascal_case_style
+
+# private フィールドは _camelCase(例: _count)
+dotnet_naming_rule.private_fields_should_be_underscore_camel.severity = error
+dotnet_naming_rule.private_fields_should_be_underscore_camel.symbols = private_field_symbols
+dotnet_naming_rule.private_fields_should_be_underscore_camel.style = underscore_camel_style
+
+# --- シンボル定義(どの種類の要素を対象にするか) ---
+
+# 対象: インターフェース(アクセス修飾子は問わない)
+dotnet_naming_symbols.interface_symbols.applicable_kinds = interface
+dotnet_naming_symbols.interface_symbols.applicable_accessibilities = *
+
+# 対象: class / struct / enum(アクセス修飾子は問わない)
+dotnet_naming_symbols.type_symbols.applicable_kinds = class, struct, enum
+dotnet_naming_symbols.type_symbols.applicable_accessibilities = *
+
+# 対象: プロパティ / メソッド / イベント(アクセス修飾子は問わない)
+dotnet_naming_symbols.member_symbols.applicable_kinds = property, method, event
+dotnet_naming_symbols.member_symbols.applicable_accessibilities = *
+
+# 対象: private のフィールドのみ
+dotnet_naming_symbols.private_field_symbols.applicable_kinds = field
+dotnet_naming_symbols.private_field_symbols.applicable_accessibilities = private
+
+# --- スタイル定義(どんな名前の形を正とするか) ---
+
+# 先頭に「I」を付け、残りは PascalCase
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+# PascalCase(単語の先頭を大文字にする)
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# 先頭に「_」を付け、残りは camelCase(単語の先頭だけ小文字)
+dotnet_naming_style.underscore_camel_style.required_prefix = _
+dotnet_naming_style.underscore_camel_style.capitalization = camel_case
+
+#### コードスタイル ####
+
+# using
+# System 系の using を先頭に並べる
+dotnet_sort_system_directives_first = true
+# using は namespace の外に書く(違反は警告)
+csharp_using_directive_placement = outside_namespace:warning
+# 不要な using を指摘する(警告)
+dotnet_diagnostic.IDE0005.severity = warning
+
+# 波括弧は常に付ける(if などの 1 行文にも付ける。suggestion なのでエラーにはならない)
+csharp_prefer_braces = true:suggestion
+
+# アクセス修飾子(public / private など)を明示する。インターフェースのメンバーは対象外(警告)
+dotnet_style_require_accessibility_modifiers = for_non_interface_members:warning
+
+# this. は付けない(フィールド・メソッド・プロパティそれぞれ。suggestion)
+dotnet_style_qualification_for_field = false:suggestion
+dotnet_style_qualification_for_method = false:suggestion
+dotnet_style_qualification_for_property = false:suggestion
+
+# 再代入されないフィールドは readonly にする(suggestion)
+dotnet_style_readonly_field = true:suggestion
+
+# 未使用の変数・パラメーター
+# IDE0059: 不要な値の代入(suggestion)
+dotnet_diagnostic.IDE0059.severity = suggestion
+# IDE0060: 未使用のパラメーター(suggestion)
+dotnet_diagnostic.IDE0060.severity = suggestion
+
+# 波括弧の改行(Allman スタイル)
+# 「{」は常に新しい行に置く
+csharp_new_line_before_open_brace = all
+# else は「}」の次の行に置く
+csharp_new_line_before_else = true
+# catch は「}」の次の行に置く
+csharp_new_line_before_catch = true
+# finally は「}」の次の行に置く
+csharp_new_line_before_finally = true
+
+#### 書式ルール(違反はエラー) ####
+
+# インデント・空白・改行のずれ全般(IDE0055)
+dotnet_diagnostic.IDE0055.severity = error
+
+# 連続した空白行(2行以上)を禁止(IDE2000)
+dotnet_style_allow_multiple_blank_lines_experimental = false:error
+
+# 波括弧が連続する間の空白行を禁止(IDE2002)
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false:error
+
+# コンストラクタ初期化子の「:」直後の空白行を禁止(IDE2004)
+csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = false:error
+
+# --- IDE0055 が判定する基準(書式の「正解」) ---
+
+# インデントはスペース、幅は4(基本設定と同じ値の再掲)
+indent_style = space
+indent_size = 4
+# 波括弧の中身をインデントする
+csharp_indent_block_contents = true
+# 波括弧自体はインデントしない
+csharp_indent_braces = false
+# switch の case の中身をインデントする
+csharp_indent_case_contents = true
+# switch の case ラベルをインデントする
+csharp_indent_switch_labels = true
+
+# 波括弧・else・catch・finally の改行位置(上のコードスタイルと同じ値の再掲)
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+
+# if / for / while などのキーワードの後ろにスペースを入れる(例: if (x))
+csharp_space_after_keywords_in_control_flow_statements = true
+# 二項演算子の前後にスペースを入れる(例: a + b)
+csharp_space_around_binary_operators = before_and_after
+# カンマの後ろにスペースを入れる(例: Foo(a, b))
+csharp_space_after_comma = true
+# カンマの前にはスペースを入れない
+csharp_space_before_comma = false
+# かっこの内側にスペースを入れない(例: Foo(a) であって Foo( a ) ではない)
+csharp_space_between_parentheses = false

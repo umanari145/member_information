@@ -11,7 +11,7 @@ namespace WinFormsApp2.Request
         public int? AgeTo { get; set; }
         public string? Gender { get; set; }
 
-        public void build()
+        public void Build()
         {
             AddLike("Name", this.Name);
             AddRange("Age", this.AgeFrom, this.AgeTo, 0, 150);

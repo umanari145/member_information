@@ -13,7 +13,6 @@ namespace WinFormsApp2.File
         private readonly DB _db = new DB();
         private RequestValidator _validator;
 
-
         public CSVImport(RequestValidator validator)
         {
             _validator = validator;
@@ -25,7 +24,7 @@ namespace WinFormsApp2.File
             StreamReader? reader = null;
             try
             {
-                reader = new StreamReader(fileInfo.filePath, Encoding.UTF8);
+                reader = new StreamReader(fileInfo.FilePath, Encoding.UTF8);
                 reader.ReadLine(); // ヘッダーを読み飛ばす
                 string? line;
                 int lineNo = 1;
@@ -40,7 +39,7 @@ namespace WinFormsApp2.File
                         }
 
                         string[] cols = line.Split(',');
-                        if (IsInvalidColLength(cols, fileInfo.colLength, lineNo))
+                        if (IsInvalidColLength(cols, fileInfo.ColLength, lineNo))
                         {
                             continue;
                         }
@@ -55,23 +54,20 @@ namespace WinFormsApp2.File
                         string? idColumnValue = requestRegist.Get<string>(idColumnName);
                         if (string.IsNullOrEmpty(idColumnValue))
                         {
-                            _db.Insert(fileInfo.tableName, requestRegist, idColumnName);
+                            _db.Insert(fileInfo.TableName, requestRegist, idColumnName);
                             _fileResult.InsertCount++;
                         }
                         else
-                        {                                                
-                            _db.Update(fileInfo.tableName, requestRegist, idColumnName, idColumnValue);
+                        {
+                            _db.Update(fileInfo.TableName, requestRegist, idColumnName, idColumnValue);
                             _fileResult.UpdateCount++;
                         }
-
-
                     }
                     catch (Exception ex)
                     {
                         _fileResult.Errors.Add(lineNo + "行目:" + modCommon.Messages.ImportFileError.ExceptionItem + ex.Message);
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -99,7 +95,7 @@ namespace WinFormsApp2.File
         }
 
         private bool IsInvalidColLength(string[] cols, int colLength, int lineNo)
-        {            
+        {
             if (cols.Length < colLength)
             {
                 _fileResult.Errors.Add(lineNo + "行目:" + modCommon.Messages.ImportFileError.ShortageItem);
@@ -109,7 +105,7 @@ namespace WinFormsApp2.File
         }
 
         private bool IsInValidItem(RequestRegist request, int lineNo)
-        {            
+        {
             Validation.ValidationResult validation = _validator.Validate(request);
 
             if (!validation.IsValid)
@@ -122,6 +118,5 @@ namespace WinFormsApp2.File
             }
             return false;
         }
-
     }
 }

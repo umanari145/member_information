@@ -22,7 +22,6 @@ namespace WinFormsApp2
                        ?? throw new InvalidOperationException(string.Format(modCommon.Messages.DBError.CannotOpenFile, "Members"));
         }
 
-
         public DataTable Query(string sql, Dictionary<string, object?> parameters)
         {
             using (var conn = new SqlConnection(_connStr))
@@ -81,7 +80,7 @@ namespace WinFormsApp2
 
             if (columns.Count == 0)
             {
-                throw new ArgumentException(modCommon.Messages.DBError.NotExistInsertColumn , nameof(values));
+                throw new ArgumentException(modCommon.Messages.DBError.NotExistInsertColumn, nameof(values));
             }
 
             string sql = string.Format(
@@ -159,7 +158,6 @@ namespace WinFormsApp2
             return Execute(sql, parameters);
         }
 
-
         /// <summary>
         /// テーブル名・列名を [ ] で囲み、SQLインジェクションを防ぎます。
         /// </summary>
@@ -168,6 +166,4 @@ namespace WinFormsApp2
             return "[" + name.Replace("]", "]]") + "]";
         }
     }
-
-
 }

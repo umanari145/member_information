@@ -7,7 +7,6 @@ namespace TestProject.Request
     public class MemberRequestSearchTest
     {
 
-
         public static object[][] GetPatterns()
         {
             return new[]
@@ -36,7 +35,7 @@ namespace TestProject.Request
                 Gender = gender
             };
 
-            memberRequest.build();
+            memberRequest.Build();
             string whereClause = memberRequest.ToWhereClause();
             // Console.WriteLine($"実際のWHERE句: {whereClause}");
             // Console.WriteLine($"期待値のWHERE句: {expectedWhereClause}");
@@ -66,8 +65,8 @@ namespace TestProject.Request
                 memberRequest.Parameters.ContainsKey($"@{key}") ? expcetedVal : null,
                 // 実際の値
                 memberRequest.Parameters.TryGetValue($"@{key}", out var v) ? v : null
-                // 下記の値と同じ意味だが、TryGetValueの方が安全
-                // memberRequest.Parameters.ContainsKey($"@{key}") ? memberRequest.Parameters[$"@{key}"] : null
+            // 下記の値と同じ意味だが、TryGetValueの方が安全
+            // memberRequest.Parameters.ContainsKey($"@{key}") ? memberRequest.Parameters[$"@{key}"] : null
             );
         }
     }

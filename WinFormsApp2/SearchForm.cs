@@ -20,7 +20,7 @@ namespace WinFormsApp2
         {
             dataGridView1.AllowUserToAddRows = false;
             InitializeGridColumns();   // 列の追加は一度だけ
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+            dataGridView1.CellContentClick += DataGridView1_CellContentClick;
             LoadAllMembers(new MemberRequestSearch());
         }
 
@@ -48,7 +48,7 @@ namespace WinFormsApp2
             dataGridView1.Columns.Add(btn);
         }
 
-        private void dataGridView1_CellContentClick(object? sender, DataGridViewCellEventArgs e)
+        private void DataGridView1_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
             // ヘッダー行(RowIndex = -1)のクリックは無視
             if (e.RowIndex < 0) return;
@@ -58,7 +58,7 @@ namespace WinFormsApp2
 
             // クリックされた行の MemberId を取得
             int memberId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["MemberId"].Value);
-            
+
             try
             {
                 // 編集画面を開く
@@ -68,7 +68,7 @@ namespace WinFormsApp2
                     LoadAllMembers(new MemberRequestSearch()); // ③ 保存されていたら一覧を再読み込み
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(modCommon.Messages.SearchForm.EditOpenError + "\n" + ex.Message,
                     "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -79,7 +79,7 @@ namespace WinFormsApp2
         {
             try
             {
-                memberRequestSearch.build();
+                memberRequestSearch.Build();
 
                 string sql = "SELECT MemberId, Name, Age, Gender FROM Members"
                            + memberRequestSearch.ToWhereClause()
@@ -95,7 +95,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void search_button_Click(object sender, EventArgs e)
+        private void Search_button_Click(object sender, EventArgs e)
         {
             var memberSearchClass = new MemberRequestSearch();
             memberSearchClass.Name = name.Text.Trim();
@@ -122,7 +122,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void register_menu_item_Click(object sender, EventArgs e)
+        private void Register_menu_item_Click(object sender, EventArgs e)
         {
             using var form = new RegistForm();
             if (form.ShowDialog(this) == DialogResult.OK)
@@ -131,7 +131,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void bulk_member_regist_ToolStripMenuItem_Click(object sender, EventArgs e)
+        private void BulkMemberRegistToolStripMenuItemClick(object sender, EventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Title = "CSVファイルを選択してください";
@@ -164,7 +164,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void all_check_Click(object sender, EventArgs e)
+        private void All_check_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
@@ -172,7 +172,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void all_uncheck_Click(object sender, EventArgs e)
+        private void All_uncheck_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
@@ -180,7 +180,7 @@ namespace WinFormsApp2
             }
         }
 
-        private void delete_Click(object sender, EventArgs e)
+        private void Delete_Click(object sender, EventArgs e)
         {
             List<int> targetIds = GetCheckedMemberIds();
 
