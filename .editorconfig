@@ -153,3 +153,74 @@ csharp_space_after_comma = true
 csharp_space_before_comma = false
 # かっこの内側にスペースを入れない(例: Foo(a) であって Foo( a ) ではない)
 csharp_space_between_parentheses = false
+#### メソッドのかっこまわり ####
+
+# メソッド呼び出しで、メソッド名と「(」の間にスペースを入れない
+# OK: Foo(a)   NG: Foo (a)
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+
+# メソッド呼び出しで、引数リストの「(」の直後と「)」の直前にスペースを入れない
+# OK: Foo(a, b)   NG: Foo( a, b )
+csharp_space_between_method_call_parameter_list_parentheses = false
+
+# 引数なしのメソッド呼び出しで、「()」の内側にスペースを入れない
+# OK: Foo()   NG: Foo( )
+csharp_space_between_method_call_empty_parameter_list_parentheses = false
+
+# メソッド宣言で、メソッド名と「(」の間にスペースを入れない
+# OK: void Foo(int a)   NG: void Foo (int a)
+csharp_space_between_method_declaration_name_and_open_parenthesis = false
+
+# メソッド宣言で、パラメーターリストの「(」の直後と「)」の直前にスペースを入れない
+# OK: void Foo(int a)   NG: void Foo( int a )
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+
+# パラメーターなしのメソッド宣言で、「()」の内側にスペースを入れない
+# OK: void Foo()   NG: void Foo( )
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+
+#### 角かっこ([ ])まわり ####
+
+# 角かっこ「[」の前にスペースを入れない
+# OK: array[0]   NG: array [0]
+csharp_space_before_open_square_brackets = false
+
+# 角かっこの内側(「[」の直後と「]」の直前)にスペースを入れない
+# OK: array[0]   NG: array[ 0 ]
+csharp_space_between_square_brackets = false
+
+# 空の角かっこ「[]」の内側にスペースを入れない
+# OK: int[]   NG: int[ ]
+csharp_space_between_empty_square_brackets = false
+
+#### for 文・ドット・キャストまわり ####
+
+# for 文の「;」の前にスペースを入れない
+# OK: for (int i = 0; i < 10; i++)   NG: for (int i = 0 ; i < 10 ; i++)
+csharp_space_before_semicolon_in_for_statement = false
+
+# for 文の「;」の後ろにスペースを入れる
+# OK: for (int i = 0; i < 10; i++)   NG: for (int i = 0;i < 10;i++)
+csharp_space_after_semicolon_in_for_statement = true
+
+# ドット「.」の前にスペースを入れない
+# OK: obj.Method()   NG: obj .Method()
+csharp_space_before_dot = false
+
+# ドット「.」の後ろにスペースを入れない
+# OK: obj.Method()   NG: obj. Method()
+csharp_space_after_dot = false
+
+# キャスト「(型)」と対象の式の間にスペースを入れない
+# OK: (int)value   NG: (int) value
+csharp_space_after_cast = false
+
+#### 継承の「:」まわり ####
+
+# 継承・インターフェース実装の「:」の前にスペースを入れる
+# OK: class A : B   NG: class A: B
+csharp_space_before_colon_in_inheritance_clause = true
+
+# 継承・インターフェース実装の「:」の後ろにスペースを入れる
+# OK: class A : B   NG: class A :B
+csharp_space_after_colon_in_inheritance_clause = true
