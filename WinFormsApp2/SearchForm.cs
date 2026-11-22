@@ -6,7 +6,9 @@ namespace WinFormsApp2
 {
     public partial class SearchForm : Form
     {
-        private readonly DB _db = new DB();
+        private const string _tableName = "Members";
+        private const string _keyColumnName = "MemberId";
+        private DB _db = new DB();
         public SearchForm()
         {
             InitializeComponent();
@@ -53,21 +55,24 @@ namespace WinFormsApp2
             if (dataGridView1.Columns[e.ColumnIndex].Name != "EditButton") return;
 
             // クリックされた行の MemberId を取得
-            int memberId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells["MemberId"].Value);
+            int memberId = Convert.ToInt32(dataGridView1.Rows[e.RowIndex].Cells[_keyColumnName].Value);
 
+            bool saved = false;
             try
             {
                 // 編集画面を開く
-                using var form = new RegistForm(memberId); // ① 編集画面を作る
-                if (form.ShowDialog() == DialogResult.OK)   // ② 画面を表示して、閉じるまで待つ
-                {
-                    LoadAllMembers(new MemberRequestSearch()); // ③ 保存されていたら一覧を再読み込み
-                }
+                using var form = new RegistForm(memberId);
+                saved = form.ShowDialog() == DialogResult.OK;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(modCommon.Messages.SearchForm.EditOpenError + "\n" + ex.Message,
                     "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (saved)
+            {
+                LoadAllMembers(new MemberRequestSearch());
             }
         }
 
@@ -77,12 +82,11 @@ namespace WinFormsApp2
             {
                 memberRequestSearch.Build();
 
-                string sql = "SELECT MemberId, Name, Age, Gender FROM Members"
+                string sql = "SELECT MemberId, Name, Age, Gender FROM " + _tableName
                            + memberRequestSearch.ToWhereClause()
-                           + " ORDER BY MemberId";
+                           + " ORDER BY " + _keyColumnName;
 
-                var table = _db.Query(sql, memberRequestSearch.Parameters);
-                dataGridView1.DataSource = table;
+                dataGridView1.DataSource = _db.Query(sql, memberRequestSearch.Parameters);
             }
             catch (Exception ex)
             {
@@ -93,11 +97,13 @@ namespace WinFormsApp2
 
         private void SearchButtonClick(object sender, EventArgs e)
         {
-            var memberSearchClass = new MemberRequestSearch();
-            memberSearchClass.Name = name.Text.Trim();
-            memberSearchClass.AgeFrom = (int)age_from.Value;
-            memberSearchClass.AgeTo = (int)age_to.Value;
-            memberSearchClass.Gender = GetSelectedGender();
+            var memberSearchClass = new MemberRequestSearch
+            {
+                Name = name.Text.Trim(),
+                AgeFrom = (int)age_from.Value,
+                AgeTo = (int)age_to.Value,
+                Gender = GetSelectedGender()
+            };
 
             LoadAllMembers(memberSearchClass);
         }
@@ -121,42 +127,48 @@ namespace WinFormsApp2
         private void RegisterMenuItemClick(object sender, EventArgs e)
         {
             using var form = new RegistForm();
-            if (form.ShowDialog(this) == DialogResult.OK)
+            if (form.ShowDialog() == DialogResult.OK)
             {
-                LoadAllMembers(new MemberRequestSearch());   // 登録されたら一覧を再読み込み
+                LoadAllMembers(new MemberRequestSearch());
             }
         }
 
         private void BulkMemberRegistToolStripMenuItemClick(object sender, EventArgs e)
         {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Title = "CSVファイルを選択してください";
-            dialog.Filter = "CSVファイル (*.csv)|*.csv|すべてのファイル (*.*)|*.*";
-
-            if (dialog.ShowDialog() != DialogResult.OK)
+            string? filePath = SelectCsvFile();
+            if (filePath == null)
             {
-                dialog.Dispose();
                 return;
             }
 
             try
             {
-                string filePath = dialog.FileName;
-                dialog.Dispose();
-
                 CSVImport importer = new CSVImport(MemberValidatorFactory.Create());
                 FileResult fileResult = importer.ImportCsv(
-                    new File.FileInfo(filePath, 4, "Members"),
-                    "MemberId",
+                    new File.FileInfo(filePath, 4, _tableName),
+                    _keyColumnName,
                     MemberCsvMapper.MapMemberRow
                 );
 
                 MessageBox.Show(fileResult.BuildResultMessage());
             }
-            finally
+            catch (Exception ex)
             {
-                dialog.Dispose();
-                LoadAllMembers(new MemberRequestSearch());
+                MessageBox.Show(modCommon.Messages.ListMember.CsvImportError + "\n" + ex.Message,
+                                "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            LoadAllMembers(new MemberRequestSearch());
+        }
+
+        private string? SelectCsvFile()
+        {
+            using (var dialog = new OpenFileDialog())
+            {
+                dialog.Title = "CSVファイルを選択してください";
+                dialog.Filter = "CSVファイル (*.csv)|*.csv|すべてのファイル (*.*)|*.*";
+
+                return dialog.ShowDialog() == DialogResult.OK ? dialog.FileName : null;
             }
         }
 

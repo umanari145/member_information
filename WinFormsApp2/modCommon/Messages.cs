@@ -42,6 +42,7 @@ namespace WinFormsApp2.modCommon
             public const string DeleteConfirm = "選択された {0} 件のデータを削除しますか？";
             public const string DeleteSuccess = "削除が完了しました。";
             public const string DeleteError = "削除に失敗しました。";
+            public const string CsvImportError = "インポートに失敗しました。";
         }
     }
 }
