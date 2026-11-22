@@ -6,10 +6,10 @@ namespace WinFormsApp2
     public partial class RegistForm : Form
     {
         private readonly DB _db = new DB();
-
         private string? _memberId = null;
+        private const string _tableName = "Members";
+        private const string _keyColumnName = "MemberId";
 
-        private readonly string _tableName = "Members";
         public RegistForm()
         {
             InitializeComponent();
@@ -49,10 +49,10 @@ namespace WinFormsApp2
             try
             {
                 var parameters = new Dictionary<string, object?>();
-                parameters.Add("@MemberId", memberId);
+                parameters.Add($"@{_keyColumnName}", memberId);
 
                 var table = _db.Query(
-                    $"SELECT Name, Age, Gender FROM {_tableName} WHERE MemberId = @MemberId",
+                    $"SELECT Name, Age, Gender FROM {_tableName} WHERE {_keyColumnName} = @{_keyColumnName}",
                     parameters);
 
                 if (table.Rows.Count == 0) return;
