@@ -3,7 +3,6 @@ namespace WinFormsApp2.modCommon
 {
     public static class Messages
     {
-
         public static class SearchForm
         {
             public const string EditOpenError = "編集画面を開けませんでした。";
@@ -16,6 +15,11 @@ namespace WinFormsApp2.modCommon
             public const string InsertSuccess = "新規会員を登録しました。";
             public const string UpdateSuccess = "会員情報を更新しました。";
             public const string RegistFailed = "会員データの登録に失敗しました。";
+            public const string RequiredName = "名前を入力してください。";
+            public const string RangeAge = "年齢は1〜150の範囲で入力してください。";
+            public const string RequiredGender = "性別を選択してください。";
+            public const string OptionalRequiredMemberId = "会員IDは数値で入力してください。";
+
         }
 
         public static class DBError

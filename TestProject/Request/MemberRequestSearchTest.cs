@@ -6,7 +6,7 @@ namespace TestProject.Request
     public class MemberRequestSearchTest
     {
 
-        public static object[][] GetPatterns()
+        private static object?[][] GetPatterns()
         {
             return new[]
             {
@@ -14,7 +14,7 @@ namespace TestProject.Request
                 new object?[] { null, null, null, null, "" },
                 new object?[] { "山田", 20, null, null, " WHERE Name LIKE @Name AND Age >= @AgeFrom" },
                 new object?[] { null, null, 40, "女性", " WHERE Age <= @AgeTo AND Gender = @Gender" },
-            }!;
+            };
         }
 
         [TestMethod]
