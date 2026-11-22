@@ -105,16 +105,15 @@ namespace WinFormsApp2
             try
             {
                 string message = string.Empty;
-                request.Collect(this);
 
                 if (_memberId == null)
                 {
-                    _db.Insert(_tableName, request, "MemberId");
+                    _db.Insert(_tableName, request, _keyColumnName);
                     message = modCommon.Messages.RegistForm.InsertSuccess;
                 }
                 else
                 {
-                    _db.Update(_tableName, request, "MemberId", _memberId);
+                    _db.Update(_tableName, request, _keyColumnName, _memberId);
                     message = modCommon.Messages.RegistForm.UpdateSuccess;
                 }
 
@@ -127,7 +126,6 @@ namespace WinFormsApp2
             {
                 MessageBox.Show(modCommon.Messages.RegistForm.RegistFailed + "\n" + ex.StackTrace,
                                 "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 return false;
             }
         }
